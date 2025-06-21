@@ -4,20 +4,16 @@ import { TConstructorIngredient, TOrder } from '@utils-types';
 
 export interface ConstructorState {
   constructorItems: {
-    bun: TConstructorIngredient | { price: 0 };
+    bun: TConstructorIngredient | null;
     ingredients: TConstructorIngredient[];
   };
-  orderRequest: boolean;
-  orderModalData: TOrder | null;
 }
 
 const initialState: ConstructorState = {
   constructorItems: {
-    bun: { price: 0 },
+    bun: null,
     ingredients: []
-  },
-  orderRequest: false,
-  orderModalData: null
+  }
 };
 
 const constructorSlice = createSlice({
@@ -29,16 +25,10 @@ const constructorSlice = createSlice({
     }
   },
   selectors: {
-    selectConstructorItems: (sliceState) => sliceState.constructorItems,
-    selectOrderRequest: (sliceState) => sliceState.orderRequest,
-    selectOrderModalData: (sliceState) => sliceState.orderModalData
+    selectConstructorItems: (sliceState) => sliceState.constructorItems
   }
 });
 
-export const {
-  selectConstructorItems,
-  selectOrderRequest,
-  selectOrderModalData
-} = constructorSlice.selectors;
+export const { selectConstructorItems } = constructorSlice.selectors;
 
 export const constructorReducer = constructorSlice.reducer;

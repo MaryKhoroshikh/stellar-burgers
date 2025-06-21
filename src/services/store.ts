@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import { ingridientsReducer } from './slices/ingridients';
-import { constructorReducer } from './slices/consrtuctor';
-import { feedReducer } from './slices/feed';
+import { ingredientsReducer } from './slices/ingredients';
+import { constructorReducer } from './slices/consrtuctorB';
+import { ordersListReducer } from './slices/ordersList';
+import { profileReducer } from './slices/profile';
+import { orderReducer } from './slices/order';
 import { SLICE_NAME } from './slices/slicesName';
 
 import {
@@ -12,9 +14,11 @@ import {
 } from 'react-redux';
 
 const rootReducer = combineReducers({
-  [SLICE_NAME.INGRIDIENTS]: ingridientsReducer,
+  [SLICE_NAME.INGREDIENTS]: ingredientsReducer,
   [SLICE_NAME.CONSTRUCTOR]: constructorReducer,
-  [SLICE_NAME.FEED]: feedReducer
+  [SLICE_NAME.ORDERS_LIST]: ordersListReducer,
+  [SLICE_NAME.PROFILE]: profileReducer,
+  [SLICE_NAME.ORDER]: orderReducer
 }); // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({

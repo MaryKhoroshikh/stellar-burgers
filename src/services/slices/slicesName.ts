@@ -1,7 +1,7 @@
 export const SLICE_NAME = {
-  INGRIDIENTS: 'ingridients',
+  INGREDIENTS: 'ingredients',
   CONSTRUCTOR: 'constructor',
   ORDER: 'order',
-  FEED: 'feed',
+  ORDERS_LIST: 'ordersList',
   PROFILE: 'profile'
 };
