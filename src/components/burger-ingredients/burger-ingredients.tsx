@@ -7,8 +7,7 @@ import { useSelector } from 'react-redux';
 import {
   selectBuns,
   selectMains,
-  selectSauces,
-  selectIsLoading
+  selectSauces
 } from '../../services/slices/ingridients';
 
 export const BurgerIngredients: FC = () => {

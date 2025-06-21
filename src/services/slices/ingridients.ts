@@ -13,15 +13,15 @@ const initialState: IngridientsState = {
   buns: [],
   mains: [],
   sauces: [],
-  isLoading: true
+  isLoading: false
 };
 
 const ingridientsSlice = createSlice({
   name: SLICE_NAME.INGRIDIENTS,
   initialState,
   reducers: {
-    addIngridient: (state, action) => {
-      console.log('добавлен ингридиент');
+    reducerName: (state, action) => {
+      console.log('добавить редьюсеры');
     }
   },
   selectors: {
@@ -34,4 +34,5 @@ const ingridientsSlice = createSlice({
 
 export const { selectBuns, selectMains, selectSauces, selectIsLoading } =
   ingridientsSlice.selectors;
+
 export const ingridientsReducer = ingridientsSlice.reducer;
