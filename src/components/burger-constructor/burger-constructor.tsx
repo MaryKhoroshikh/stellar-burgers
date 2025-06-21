@@ -12,9 +12,9 @@ export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorItems = {
     bun: {
-      price: useSelector(selectConstructorItems).bun.price
+      price: 0
     },
-    ingredients: useSelector(selectConstructorItems).ingredients
+    ingredients: []
   };
 
   console.log(useSelector(selectConstructorItems), 'obj');
@@ -32,7 +32,7 @@ export const BurgerConstructor: FC = () => {
 
   const price = useMemo(
     () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
+      constructorItems.bun.price * 2 +
       constructorItems.ingredients.reduce(
         (s: number, v: TConstructorIngredient) => s + v.price,
         0

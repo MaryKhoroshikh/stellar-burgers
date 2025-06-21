@@ -4,9 +4,7 @@ import { TConstructorIngredient, TOrder } from '@utils-types';
 
 export interface ConstructorState {
   constructorItems: {
-    bun: {
-      price: number;
-    };
+    bun: TConstructorIngredient | { price: 0 };
     ingredients: TConstructorIngredient[];
   };
   orderRequest: boolean;
@@ -15,9 +13,7 @@ export interface ConstructorState {
 
 const initialState: ConstructorState = {
   constructorItems: {
-    bun: {
-      price: 0
-    },
+    bun: { price: 0 },
     ingredients: []
   },
   orderRequest: false,
