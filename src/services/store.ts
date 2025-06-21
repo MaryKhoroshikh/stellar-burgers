@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { ingridientsReducer } from './slices/ingridients';
 import { constructorReducer } from './slices/consrtuctor';
+import { feedReducer } from './slices/feed';
 import { SLICE_NAME } from './slices/slicesName';
 
 import {
@@ -12,7 +13,8 @@ import {
 
 const rootReducer = combineReducers({
   [SLICE_NAME.INGRIDIENTS]: ingridientsReducer,
-  [SLICE_NAME.CONSTRUCTOR]: constructorReducer
+  [SLICE_NAME.CONSTRUCTOR]: constructorReducer,
+  [SLICE_NAME.FEED]: feedReducer
 }); // Заменить на импорт настоящего редьюсера
 
 const store = configureStore({
