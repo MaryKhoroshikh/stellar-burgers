@@ -15,7 +15,7 @@ import {
 
 const rootReducer = combineReducers({
   [SLICE_NAME.INGREDIENTS]: ingredientsReducer,
-  [SLICE_NAME.CONSTRUCTOR]: constructorReducer,
+  [SLICE_NAME.CONSTRUCTOR_BURGER]: constructorReducer,
   [SLICE_NAME.ORDERS_LIST]: ordersListReducer,
   [SLICE_NAME.PROFILE]: profileReducer,
   [SLICE_NAME.ORDER]: orderReducer

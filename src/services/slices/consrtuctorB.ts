@@ -17,7 +17,7 @@ const initialState: ConstructorState = {
 };
 
 const constructorSlice = createSlice({
-  name: SLICE_NAME.CONSTRUCTOR,
+  name: SLICE_NAME.CONSTRUCTOR_BURGER,
   initialState,
   reducers: {
     reducerName: (state, action) => {
