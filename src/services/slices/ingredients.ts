@@ -1,39 +1,62 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TIngredient } from '@utils-types';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { getIngredientsApi } from '@api';
 
 export interface IngredientsState {
-  ingredients: {
-    buns: TIngredient[];
-    mains: TIngredient[];
-    sauces: TIngredient[];
-  };
+  ingredients: TIngredient[];
+  buns: TIngredient[];
+  mains: TIngredient[];
+  sauces: TIngredient[];
   isLoading: boolean;
   ingredientData: TIngredient | null;
 }
 
 const initialState: IngredientsState = {
-  ingredients: {
-    buns: [],
-    mains: [],
-    sauces: []
-  },
+  ingredients: [],
+  buns: [],
+  mains: [],
+  sauces: [],
   isLoading: false,
   ingredientData: null
 };
 
+export const fetchIngredients = createAsyncThunk(
+  `${SLICE_NAME.INGREDIENTS}/fetchIngredients`,
+  async () => {
+    const data = await getIngredientsApi();
+    console.log('запрос');
+    return {
+      buns: data.filter((item) => item.type === 'bun'),
+      mains: data.filter((item) => item.type === 'main'),
+      sauces: data.filter((item) => item.type === 'sauce')
+    };
+  }
+);
+
 const ingredientsSlice = createSlice({
   name: SLICE_NAME.INGREDIENTS,
   initialState,
-  reducers: {
-    reducerName: (state, action) => {
-      console.log('добавить редьюсеры');
-    }
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchIngredients.pending, (state) => {
+        console.log('pending');
+        //state.isLoading = true;
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        console.log('fulfilled');
+        state.buns = action.payload.buns;
+        state.mains = action.payload.mains;
+        state.sauces = action.payload.sauces;
+        //state.isLoading = false;
+      });
   },
   selectors: {
-    selectBuns: (sliceState) => sliceState.ingredients.buns,
-    selectMains: (sliceState) => sliceState.ingredients.mains,
-    selectSauces: (sliceState) => sliceState.ingredients.sauces,
+    selectBuns: (sliceState) => sliceState.buns,
+    selectMains: (sliceState) => sliceState.mains,
+    selectSauces: (sliceState) => sliceState.sauces,
     selectIsLoading: (sliceState) => sliceState.isLoading,
     selectIngredientData: (sliceState) => sliceState.ingredientData
   }
