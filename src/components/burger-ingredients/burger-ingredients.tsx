@@ -43,7 +43,6 @@ export const BurgerIngredients: FC = () => {
   });
 
   useEffect(() => {
-    dispatch(fetchIngredients());
     if (inViewBuns) {
       setCurrentTab('bun');
     } else if (inViewSauces) {

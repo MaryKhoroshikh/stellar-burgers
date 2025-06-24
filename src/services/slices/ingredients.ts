@@ -43,14 +43,14 @@ const ingredientsSlice = createSlice({
     builder
       .addCase(fetchIngredients.pending, (state) => {
         console.log('pending');
-        state.isLoading = true;
+        //state.isLoading = true;
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
         console.log('fulfilled');
         state.buns = action.payload.buns;
         state.mains = action.payload.mains;
         state.sauces = action.payload.sauces;
-        state.isLoading = false;
+        //state.isLoading = false;
       });
   },
   selectors: {
