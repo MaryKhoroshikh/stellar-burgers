@@ -18,7 +18,7 @@ export const BurgerIngredients: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, []);
+  }, [dispatch]);
   //console.log(getIngredientsApi());
 
   const buns = useSelector(selectBuns);
@@ -43,6 +43,7 @@ export const BurgerIngredients: FC = () => {
   });
 
   useEffect(() => {
+    dispatch(fetchIngredients());
     if (inViewBuns) {
       setCurrentTab('bun');
     } else if (inViewSauces) {
