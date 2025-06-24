@@ -4,14 +4,14 @@ import { TConstructorIngredient, TOrder } from '@utils-types';
 
 export interface ConstructorState {
   constructorItems: {
-    bun: TConstructorIngredient | null;
+    bun: TConstructorIngredient | { price: number; _id: string };
     ingredients: TConstructorIngredient[];
   };
 }
 
 const initialState: ConstructorState = {
   constructorItems: {
-    bun: null,
+    bun: { price: 0, _id: '' },
     ingredients: []
   }
 };

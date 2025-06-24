@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
-import { TUser } from '@utils-types';
+import { TOrder, TUser } from '@utils-types';
 
 export interface ProfileState {
   user: TUser;
+  orders: TOrder[];
 }
 
 const initialState: ProfileState = {
   user: {
     name: '',
     email: ''
-  }
+  },
+  orders: []
 };
 
 const profileSlice = createSlice({
@@ -22,10 +24,11 @@ const profileSlice = createSlice({
     }
   },
   selectors: {
-    selectUser: (sliceState) => sliceState.user
+    selectUser: (sliceState) => sliceState.user,
+    selectOrders: (sliceState) => sliceState.orders
   }
 });
 
-export const { selectUser } = profileSlice.selectors;
+export const { selectUser, selectOrders } = profileSlice.selectors;
 
 export const profileReducer = profileSlice.reducer;

@@ -10,12 +10,7 @@ import {
 
 export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = {
-    bun: { price: 0 },
-    ingredients: []
-  };
-
-  console.log(useSelector(selectConstructorItems), 'конструктор');
+  const constructorItems = useSelector(selectConstructorItems);
 
   const orderRequest = useSelector(selectOrderRequest);
 

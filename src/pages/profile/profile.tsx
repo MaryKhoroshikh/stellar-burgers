@@ -5,11 +5,7 @@ import { selectUser } from '../../services/slices/profile';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
-  const user = {
-    email: '',
-    name: ''
-  };
-  console.log(useSelector(selectUser));
+  const user = useSelector(selectUser);
 
   const [formValue, setFormValue] = useState({
     name: user.name,
