@@ -1,6 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
-import { TConstructorIngredient, TOrder } from '@utils-types';
+import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 
 export interface ConstructorState {
   constructorItems: {
@@ -16,12 +16,73 @@ const initialState: ConstructorState = {
   }
 };
 
+const moveIngredients = (
+  arr: TConstructorIngredient[],
+  id: string,
+  where: string
+) => {
+  const index = arr.findIndex((item) => item.id === id);
+  if (where === 'up') {
+    return [
+      ...arr.slice(0, index - 1),
+      arr[index],
+      arr[index - 1],
+      ...arr.slice(index + 1)
+    ];
+  } else {
+    return [
+      ...arr.slice(0, index),
+      arr[index + 1],
+      arr[index],
+      ...arr.slice(index + 2)
+    ];
+  }
+};
+
+const deletingIngredient = (arr: TConstructorIngredient[], deletedId: string) =>
+  arr.filter((item) => item.id !== deletedId);
+
+const addingIngredients = (
+  arr: TConstructorIngredient[],
+  newItem: TConstructorIngredient
+) => {
+  arr.push(newItem);
+  return arr;
+};
+
 const constructorSlice = createSlice({
   name: SLICE_NAME.CONSTRUCTOR_BURGER,
   initialState,
   reducers: {
-    reducerName: (state, action) => {
-      console.log('добавить редьюсеры');
+    addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
+      if (action.payload.type === 'bun') {
+        state.constructorItems.bun = action.payload;
+      } else {
+        state.constructorItems.ingredients = addingIngredients(
+          state.constructorItems.ingredients,
+          action.payload
+        );
+      }
+    },
+    moveUp: (state, action: PayloadAction<string>) => {
+      state.constructorItems.ingredients = moveIngredients(
+        state.constructorItems.ingredients,
+        action.payload,
+        'up'
+      );
+    },
+    moveDown: (state, action: PayloadAction<string>) => {
+      state.constructorItems.ingredients = moveIngredients(
+        state.constructorItems.ingredients,
+        action.payload,
+        'down'
+      );
+    },
+    deleteIngredient: (state, action: PayloadAction<string>) => {
+      state.constructorItems.ingredients = deletingIngredient(
+        state.constructorItems.ingredients,
+        action.payload
+      );
     }
   },
   selectors: {
@@ -32,3 +93,5 @@ const constructorSlice = createSlice({
 export const { selectConstructorItems } = constructorSlice.selectors;
 
 export const constructorReducer = constructorSlice.reducer;
+export const { addIngredient, moveUp, moveDown, deleteIngredient } =
+  constructorSlice.actions;

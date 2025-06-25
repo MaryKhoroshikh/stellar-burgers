@@ -7,19 +7,11 @@ import { useSelector } from 'react-redux';
 import {
   selectBuns,
   selectMains,
-  selectSauces,
-  fetchIngredients
+  selectSauces
 } from '../../services/slices/ingredients';
-import { useDispatch } from '../../services/store';
-import { getIngredientsApi } from '@api';
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchIngredients());
-  }, [dispatch]);
-  //console.log(getIngredientsApi());
 
   const buns = useSelector(selectBuns);
   const mains = useSelector(selectMains);
