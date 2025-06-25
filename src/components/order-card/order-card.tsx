@@ -5,7 +5,11 @@ import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
 import { useSelector } from 'react-redux';
-import { selectConstructorItems } from '../../services/slices/consrtuctorB';
+import {
+  selectBuns,
+  selectMains,
+  selectSauces
+} from '../../services/slices/ingredients';
 
 const maxIngredients = 6;
 
@@ -13,7 +17,11 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
 
   /** TODO: взять переменную из стора */
-  const ingredients = useSelector(selectConstructorItems).ingredients;
+  const ingredients = [
+    ...useSelector(selectBuns),
+    ...useSelector(selectMains),
+    ...useSelector(selectSauces)
+  ];
 
   const orderInfo = useMemo(() => {
     if (!ingredients.length) return null;

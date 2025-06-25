@@ -4,13 +4,21 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from 'react-redux';
 import { selectOrderData } from '../../services/slices/order';
-import { selectConstructorItems } from '../../services/slices/consrtuctorB';
+import {
+  selectBuns,
+  selectMains,
+  selectSauces
+} from '../../services/slices/ingredients';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
   const orderData = useSelector(selectOrderData);
 
-  const ingredients = useSelector(selectConstructorItems).ingredients;
+  const ingredients = [
+    ...useSelector(selectBuns),
+    ...useSelector(selectMains),
+    ...useSelector(selectSauces)
+  ];
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

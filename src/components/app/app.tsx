@@ -15,9 +15,10 @@ import { AppHeader } from '@components';
 import { Modal } from '@components';
 import { OrderInfo } from '@components';
 import { IngredientDetails } from '@components';
-import { useDispatch } from '../../services/store';
+import { useDispatch, useSelector } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredients';
+import { fetchFeed } from '../../services/slices/ordersList';
 
 function AppRouter() {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ function AppRouter() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchIngredients());
+    dispatch(fetchFeed());
   }, [dispatch]);
 
   return (
