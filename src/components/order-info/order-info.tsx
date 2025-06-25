@@ -3,7 +3,7 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from 'react-redux';
-import { selectOrderData } from '../../services/slices/order';
+import { selectOrderModalData } from '../../services/slices/ordersList';
 import {
   selectBuns,
   selectMains,
@@ -12,7 +12,7 @@ import {
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = useSelector(selectOrderData);
+  const orderData = useSelector(selectOrderModalData);
 
   const ingredients = [
     ...useSelector(selectBuns),

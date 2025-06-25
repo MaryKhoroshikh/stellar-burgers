@@ -33,16 +33,15 @@ function AppRouter() {
     <>
       <Routes>
         <Route path='/' element={<ConstructorPage />} />
-        <Route path='/feed' element={<Feed />}>
-          <Route
-            path=':number'
-            element={
-              <Modal title='' onClose={() => navigate(-1)}>
-                <OrderInfo />
-              </Modal>
-            }
-          />
-        </Route>
+        <Route path='/feed' element={<Feed />} />
+        <Route
+          path='/feed/:number'
+          element={
+            <Modal title='' onClose={() => navigate(-1)}>
+              <OrderInfo />
+            </Modal>
+          }
+        />
         <Route
           path='/ingredients/:id'
           element={
@@ -55,18 +54,16 @@ function AppRouter() {
         <Route path='/register' element={<Register />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/reset-password' element={<ResetPassword />} />
-        <Route path='/profile' element={<Profile />}>
-          <Route path='orders' element={<ProfileOrders />}>
-            <Route
-              path=':number'
-              element={
-                <Modal title='' onClose={() => navigate(-1)}>
-                  <OrderInfo />
-                </Modal>
-              }
-            />
-          </Route>
-        </Route>
+        <Route path='/profile' element={<Profile />} />
+        <Route path='orders' element={<ProfileOrders />} />
+        <Route
+          path=':number'
+          element={
+            <Modal title='' onClose={() => navigate(-1)}>
+              <OrderInfo />
+            </Modal>
+          }
+        />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
     </>
