@@ -84,6 +84,10 @@ export const BurgerConstructorUI: FC<BurgerConstructorUIProps> = ({
         size='large'
         children='Оформить заказ'
         onClick={onOrderClick}
+        disabled={
+          constructorItems.bun.price === 0 ||
+          constructorItems.ingredients.length === 0
+        }
       />
     </div>
 
