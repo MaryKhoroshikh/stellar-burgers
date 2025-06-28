@@ -6,21 +6,11 @@ import { orderBurgerApi } from '@api';
 export interface OrderState {
   orderRequest: boolean;
   orderModalData: TOrder | null;
-  orderData: TOrder | null;
 }
 
 const initialState: OrderState = {
   orderRequest: false,
-  orderModalData: null,
-  orderData: {
-    createdAt: '',
-    ingredients: [],
-    _id: '',
-    status: '',
-    name: '',
-    updatedAt: 'string',
-    number: 0
-  }
+  orderModalData: null
 };
 
 export const fetchOrder = createAsyncThunk(
@@ -54,12 +44,11 @@ const orderSlice = createSlice({
   },
   selectors: {
     selectOrderRequest: (sliceState) => sliceState.orderRequest,
-    selectOrderModalData: (sliceState) => sliceState.orderModalData,
-    selectOrderData: (sliceState) => sliceState.orderData
+    selectOrderModalData: (sliceState) => sliceState.orderModalData
   }
 });
 
-export const { selectOrderRequest, selectOrderModalData, selectOrderData } =
+export const { selectOrderRequest, selectOrderModalData } =
   orderSlice.selectors;
 
 export const orderReducer = orderSlice.reducer;

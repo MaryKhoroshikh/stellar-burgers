@@ -3,7 +3,8 @@ import profileSlice, {
   loginUser,
   registerUser,
   logoutUser,
-  updateUser
+  updateUser,
+  fetchUserOrders
 } from './profile';
 
 import orderSlice, { fetchOrder } from './order';
@@ -14,7 +15,8 @@ export const profileActions = {
   loginUser,
   registerUser,
   logoutUser,
-  updateUser
+  updateUser,
+  fetchUserOrders
 };
 export const profileSelectors = profileSlice.selectors;
 

@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, isAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder, TUser } from '@utils-types';
 import {
+  getOrdersApi,
   getUserApi,
   loginUserApi,
   logoutApi,
@@ -91,6 +92,14 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+export const fetchUserOrders = createAsyncThunk(
+  `${SLICE_NAME.ORDER}/fetchUserOrder`,
+  async () => {
+    const data = await getOrdersApi();
+    return data;
+  }
+);
+
 const profileSlice = createSlice({
   name: SLICE_NAME.PROFILE,
   initialState,
@@ -123,6 +132,10 @@ const profileSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.requestStatus = 'done';
         state.user = action.payload.user;
+      })
+      .addCase(fetchUserOrders.fulfilled, (state, action) => {
+        state.requestStatus = 'done';
+        state.orders = action.payload;
       })
       .addMatcher(
         (action) =>
