@@ -126,22 +126,16 @@ const profileSlice = createSlice({
       })
       .addMatcher(
         (action) =>
-          action.type === 'profile/fetchUser/pending' ||
-          action.type === 'profile/registerUser/pending' ||
-          action.type === 'profile/loginUser/pending' ||
-          action.type === 'profile/logoutUser/pending' ||
-          action.type === 'profile/updateUser/pending',
+          action.type.toString().includes('profile/') &&
+          action.type.toString().includes('/pending'),
         (state) => {
           state.requestStatus = 'load';
         }
       )
       .addMatcher(
         (action) =>
-          action.type === 'profile/fetchUser/rejected' ||
-          action.type === 'profile/registerUser/rejected' ||
-          action.type === 'profile/loginUser/rejected' ||
-          action.type === 'profile/logoutUser/rejected' ||
-          action.type === 'profile/updateUser/rejected',
+          action.type.toString().includes('profile/') &&
+          action.type.toString().includes('/rejected'),
         (state) => {
           state.requestStatus = 'fail';
         }
