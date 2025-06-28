@@ -4,14 +4,14 @@ import { TOrder, TUser } from '@utils-types';
 import { getUserApi, loginUserApi, registerUserApi, TRegisterData } from '@api';
 import { setCookie } from '../../utils/cookie';
 
-type TFetchStatus = 'load' | 'done' | 'fail';
+type TRequestStatus = 'load' | 'done' | 'fail';
 
 export interface ProfileState {
   user: TUser;
   password: string | null;
   orders: TOrder[];
   profileCheck: boolean;
-  fetchStatus: TFetchStatus;
+  requestStatus: TRequestStatus;
 }
 
 const initialState: ProfileState = {
@@ -22,7 +22,7 @@ const initialState: ProfileState = {
   password: null,
   orders: [],
   profileCheck: false,
-  fetchStatus: 'done'
+  requestStatus: 'done'
 };
 
 export const fetchUser = createAsyncThunk(
@@ -91,20 +91,23 @@ const profileSlice = createSlice({
   reducers: {
     setProfileCheck: (state) => {
       state.profileCheck = true;
+    },
+    setLogin: (state, action) => {
+      state.user.email;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.fetchStatus = 'done';
+        state.requestStatus = 'done';
         state.user = action.payload.user;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.fetchStatus = 'done';
+        state.requestStatus = 'done';
         state.user = action.payload.user;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.fetchStatus = 'done';
+        state.requestStatus = 'done';
         state.user = action.payload.user;
       })
       .addMatcher(
@@ -113,7 +116,7 @@ const profileSlice = createSlice({
           action.type === 'profile/registerUser/pending' ||
           action.type === 'profile/loginUser/pending',
         (state) => {
-          state.fetchStatus = 'load';
+          state.requestStatus = 'load';
         }
       )
       .addMatcher(
@@ -122,14 +125,14 @@ const profileSlice = createSlice({
           action.type === 'profile/registerUser/rejected' ||
           action.type === 'profile/loginUser/rejected',
         (state) => {
-          state.fetchStatus = 'fail';
+          state.requestStatus = 'fail';
         }
       );
   },
   selectors: {
     selectUser: (sliceState) => sliceState.user,
     selectOrders: (sliceState) => sliceState.orders,
-    selectFetchStatus: (sliceState) => sliceState.fetchStatus,
+    selectFetchStatus: (sliceState) => sliceState.requestStatus,
     profileCheck: (sliceState) => sliceState.profileCheck,
     selectPassword: (sliceState) => sliceState.password
   }
