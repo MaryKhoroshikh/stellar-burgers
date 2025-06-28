@@ -6,7 +6,8 @@ import {
   loginUserApi,
   logoutApi,
   registerUserApi,
-  TRegisterData
+  TRegisterData,
+  updateUserApi
 } from '@api';
 import { deleteCookie, setCookie } from '../../utils/cookie';
 
@@ -59,8 +60,8 @@ export const loginUser = createAsyncThunk(
 
 // export const forgotPassword = createAsyncThunk(
 //   `${SLICE_NAME.PROFILE}/forgotPassword`,
-//   async () => {
-//     const data = await forgotPasswordApi();
+//   async (userData: {email: string}) => {
+//     const data = await forgotPasswordApi(userData);
 //     return data;
 //   }
 // );
@@ -73,13 +74,13 @@ export const loginUser = createAsyncThunk(
 //   }
 // );
 
-// export const updateUser = createAsyncThunk(
-//   `${SLICE_NAME.PROFILE}/updateUser`,
-//   async () => {
-//     const data = await updateUserApi();
-//     return data;
-//   }
-// );
+export const updateUser = createAsyncThunk(
+  `${SLICE_NAME.PROFILE}/updateUser`,
+  async (userData: TRegisterData) => {
+    const data = await updateUserApi(userData);
+    return data;
+  }
+);
 
 export const logoutUser = createAsyncThunk(
   `${SLICE_NAME.PROFILE}/logoutUser`,
@@ -119,12 +120,17 @@ const profileSlice = createSlice({
         state.user.name = '';
         state.requestStatus = 'done';
       })
+      .addCase(updateUser.fulfilled, (state, action) => {
+        state.requestStatus = 'done';
+        state.user = action.payload.user;
+      })
       .addMatcher(
         (action) =>
           action.type === 'profile/fetchUser/pending' ||
           action.type === 'profile/registerUser/pending' ||
           action.type === 'profile/loginUser/pending' ||
-          action.type === 'profile/logoutUser/pending',
+          action.type === 'profile/logoutUser/pending' ||
+          action.type === 'profile/updateUser/pending',
         (state) => {
           state.requestStatus = 'load';
         }
@@ -134,7 +140,8 @@ const profileSlice = createSlice({
           action.type === 'profile/fetchUser/rejected' ||
           action.type === 'profile/registerUser/rejected' ||
           action.type === 'profile/loginUser/rejected' ||
-          action.type === 'profile/logoutUser/rejected',
+          action.type === 'profile/logoutUser/rejected' ||
+          action.type === 'profile/updateUser/rejected',
         (state) => {
           state.requestStatus = 'fail';
         }

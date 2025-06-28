@@ -2,7 +2,8 @@ import profileSlice, {
   fetchUser,
   loginUser,
   registerUser,
-  logoutUser
+  logoutUser,
+  updateUser
 } from './profile';
 
 export const profileActions = {
@@ -10,6 +11,7 @@ export const profileActions = {
   fetchUser,
   loginUser,
   registerUser,
-  logoutUser
+  logoutUser,
+  updateUser
 };
 export const profileSelectors = profileSlice.selectors;
