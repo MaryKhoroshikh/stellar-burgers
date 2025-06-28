@@ -126,16 +126,16 @@ const profileSlice = createSlice({
       })
       .addMatcher(
         (action) =>
-          action.type.toString().includes('profile/') &&
-          action.type.toString().includes('/pending'),
+          action.type.toString().startsWith('profile/') &&
+          action.type.toString().endsWith('/pending'),
         (state) => {
           state.requestStatus = 'load';
         }
       )
       .addMatcher(
         (action) =>
-          action.type.toString().includes('profile/') &&
-          action.type.toString().includes('/rejected'),
+          action.type.toString().startsWith('profile/') &&
+          action.type.toString().endsWith('/rejected'),
         (state) => {
           state.requestStatus = 'fail';
         }
