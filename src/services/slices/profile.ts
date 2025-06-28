@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder, TUser } from '@utils-types';
 import { getUserApi, loginUserApi, registerUserApi, TRegisterData } from '@api';

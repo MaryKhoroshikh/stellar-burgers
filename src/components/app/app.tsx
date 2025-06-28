@@ -26,6 +26,8 @@ function AppRouter() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  //const location: Location<{ background: Location}> = useLocation();
+  const background = location.state?.background;
   useEffect(() => {
     dispatch(fetchIngredients());
     dispatch(fetchFeed());
@@ -35,27 +37,17 @@ function AppRouter() {
       .finally(() => dispatch(profileActions.setProfileCheck()));
   }, []);
 
+  const onCloseModal = () => {
+    navigate(-1);
+  };
+
   return (
     <>
-      <Routes>
+      <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route
-          path='/feed/:number'
-          element={
-            <Modal title='' onClose={() => navigate(-1)}>
-              <OrderInfo />
-            </Modal>
-          }
-        />
-        <Route
-          path='/ingredients/:id'
-          element={
-            <Modal title='Детали ингридиента' onClose={() => navigate(-1)}>
-              <IngredientDetails />
-            </Modal>
-          }
-        />
+        <Route path='/feed/:number' element={<OrderInfo />} />
+        <Route path='/ingredients/:id' element={<IngredientDetails />} />
         <Route
           path='/login'
           element={
@@ -108,14 +100,42 @@ function AppRouter() {
           path='/profile/orders/:number'
           element={
             <ProtectedRoute isPrivate>
-              <Modal title='' onClose={() => navigate(-1)}>
-                <OrderInfo />
-              </Modal>
+              <OrderInfo />
             </ProtectedRoute>
           }
         />
         <Route path='*' element={<NotFound404 />} />
       </Routes>
+      {background && (
+        <Routes>
+          <Route
+            path='/profile/orders/:number'
+            element={
+              <ProtectedRoute isPrivate>
+                <Modal title='' onClose={onCloseModal}>
+                  <OrderInfo />
+                </Modal>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path='/ingredients/:id'
+            element={
+              <Modal title='Детали ингридиента' onClose={onCloseModal}>
+                <IngredientDetails />
+              </Modal>
+            }
+          />
+          <Route
+            path='/feed/:number'
+            element={
+              <Modal title='' onClose={onCloseModal}>
+                <OrderInfo />
+              </Modal>
+            }
+          />
+        </Routes>
+      )}
     </>
   );
 }

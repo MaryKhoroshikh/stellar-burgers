@@ -1,7 +1,7 @@
 import { profileSelectors } from '@slices';
 import { useSelector } from '../../services/store';
 import { Preloader } from '@ui';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;
@@ -9,19 +9,30 @@ type ProtectedRouteProps = {
 };
 
 function ProtectedRoute({ children, isPrivate }: ProtectedRouteProps) {
-  const user = useSelector(profileSelectors.selectUser);
+  const user = useSelector(profileSelectors.selectUser).name;
   const checkProfile = useSelector(profileSelectors.profileCheck);
+  const location = useLocation();
 
   if (!checkProfile) {
     return <Preloader />;
   }
 
-  if (false) {
-    return <Navigate to='/' />;
+  if (!isPrivate && user !== '') {
+    const from = location.state?.from || { pathname: '/' };
+    return (
+      <Navigate to={from} state={{ background: from?.state?.background }} />
+    );
   }
 
-  if (true) {
-    return <Navigate to='/login' />;
+  if (isPrivate && user === '') {
+    return (
+      <Navigate
+        to='/login'
+        state={{
+          from: location
+        }}
+      />
+    );
   }
 
   return children;
