@@ -1,9 +1,15 @@
-import profileSlice, { fetchUser, loginUser, registerUser } from './profile';
+import profileSlice, {
+  fetchUser,
+  loginUser,
+  registerUser,
+  logoutUser
+} from './profile';
 
 export const profileActions = {
   ...profileSlice.actions,
   fetchUser,
   loginUser,
-  registerUser
+  registerUser,
+  logoutUser
 };
 export const profileSelectors = profileSlice.selectors;

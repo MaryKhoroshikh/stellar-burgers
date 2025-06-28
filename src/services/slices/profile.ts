@@ -1,14 +1,19 @@
 import { createAsyncThunk, createSlice, isAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder, TUser } from '@utils-types';
-import { getUserApi, loginUserApi, registerUserApi, TRegisterData } from '@api';
-import { setCookie } from '../../utils/cookie';
+import {
+  getUserApi,
+  loginUserApi,
+  logoutApi,
+  registerUserApi,
+  TRegisterData
+} from '@api';
+import { deleteCookie, setCookie } from '../../utils/cookie';
 
 type TRequestStatus = 'load' | 'done' | 'fail';
 
 export interface ProfileState {
   user: TUser;
-  password: string | null;
   orders: TOrder[];
   profileCheck: boolean;
   requestStatus: TRequestStatus;
@@ -19,7 +24,6 @@ const initialState: ProfileState = {
     name: '',
     email: ''
   },
-  password: null,
   orders: [],
   profileCheck: false,
   requestStatus: 'done'
@@ -77,13 +81,14 @@ export const loginUser = createAsyncThunk(
 //   }
 // );
 
-// export const logoutUser = createAsyncThunk(
-//   `${SLICE_NAME.PROFILE}/logoutUser`,
-//   async () => {
-//     const data = await logoutApi();
-//     return data;
-//   }
-// );
+export const logoutUser = createAsyncThunk(
+  `${SLICE_NAME.PROFILE}/logoutUser`,
+  async () => {
+    const data = await logoutApi();
+    deleteCookie('accessToken');
+    return data;
+  }
+);
 
 const profileSlice = createSlice({
   name: SLICE_NAME.PROFILE,
@@ -92,8 +97,8 @@ const profileSlice = createSlice({
     setProfileCheck: (state) => {
       state.profileCheck = true;
     },
-    setLogin: (state, action) => {
-      state.user.email;
+    setInitialState: (state) => {
+      state = initialState;
     }
   },
   extraReducers: (builder) => {
@@ -110,11 +115,16 @@ const profileSlice = createSlice({
         state.requestStatus = 'done';
         state.user = action.payload.user;
       })
+      .addCase(logoutUser.fulfilled, (state) => {
+        state.user.name = '';
+        state.requestStatus = 'done';
+      })
       .addMatcher(
         (action) =>
           action.type === 'profile/fetchUser/pending' ||
           action.type === 'profile/registerUser/pending' ||
-          action.type === 'profile/loginUser/pending',
+          action.type === 'profile/loginUser/pending' ||
+          action.type === 'profile/logoutUser/pending',
         (state) => {
           state.requestStatus = 'load';
         }
@@ -123,7 +133,8 @@ const profileSlice = createSlice({
         (action) =>
           action.type === 'profile/fetchUser/rejected' ||
           action.type === 'profile/registerUser/rejected' ||
-          action.type === 'profile/loginUser/rejected',
+          action.type === 'profile/loginUser/rejected' ||
+          action.type === 'profile/logoutUser/rejected',
         (state) => {
           state.requestStatus = 'fail';
         }
@@ -133,8 +144,7 @@ const profileSlice = createSlice({
     selectUser: (sliceState) => sliceState.user,
     selectOrders: (sliceState) => sliceState.orders,
     selectFetchStatus: (sliceState) => sliceState.requestStatus,
-    profileCheck: (sliceState) => sliceState.profileCheck,
-    selectPassword: (sliceState) => sliceState.password
+    profileCheck: (sliceState) => sliceState.profileCheck
   }
 });
 
