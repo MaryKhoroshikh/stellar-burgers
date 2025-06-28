@@ -144,12 +144,12 @@ const profileSlice = createSlice({
   selectors: {
     selectUser: (sliceState) => sliceState.user,
     selectOrders: (sliceState) => sliceState.orders,
-    selectFetchStatus: (sliceState) => sliceState.requestStatus,
+    selectRequestStatus: (sliceState) => sliceState.requestStatus,
     profileCheck: (sliceState) => sliceState.profileCheck
   }
 });
 
-export const { selectUser, selectOrders, selectFetchStatus } =
+export const { selectUser, selectOrders, selectRequestStatus } =
   profileSlice.selectors;
 
 export const profileReducer = profileSlice.reducer;

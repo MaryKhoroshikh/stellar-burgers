@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, isAction, PayloadAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 
@@ -84,6 +84,12 @@ const constructorSlice = createSlice({
         action.payload
       );
     }
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      (action) => action.type === 'order/fetchOrder/fulfilled',
+      (state) => (state = initialState)
+    );
   },
   selectors: {
     selectConstructorItems: (sliceState) => sliceState.constructorItems

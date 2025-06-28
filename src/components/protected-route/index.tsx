@@ -11,9 +11,10 @@ type ProtectedRouteProps = {
 function ProtectedRoute({ children, isPrivate }: ProtectedRouteProps) {
   const user = useSelector(profileSelectors.selectUser).name;
   const checkProfile = useSelector(profileSelectors.profileCheck);
+  const requestStatus = useSelector(profileSelectors.selectRequestStatus);
   const location = useLocation();
 
-  if (!checkProfile) {
+  if (!checkProfile || requestStatus === 'load') {
     return <Preloader />;
   }
 

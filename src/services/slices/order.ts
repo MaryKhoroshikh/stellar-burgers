@@ -1,6 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder } from '@utils-types';
+import { orderBurgerApi } from '@api';
 
 export interface OrderState {
   orderRequest: boolean;
@@ -22,13 +23,34 @@ const initialState: OrderState = {
   }
 };
 
+export const fetchOrder = createAsyncThunk(
+  `${SLICE_NAME.ORDER}/fetchOrder`,
+  async (orderData: string[]) => {
+    const data = await orderBurgerApi(orderData);
+    return data;
+  }
+);
+
 const orderSlice = createSlice({
   name: SLICE_NAME.ORDER,
   initialState,
   reducers: {
-    reducerName: (state, action) => {
-      console.log('добавить редьюсеры');
+    closeModal: (state) => {
+      state.orderModalData = null;
     }
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchOrder.pending, (state) => {
+        state.orderRequest = true;
+      })
+      .addCase(fetchOrder.fulfilled, (state, action) => {
+        state.orderRequest = false;
+        state.orderModalData = action.payload.order;
+      })
+      .addCase(fetchOrder.rejected, (state) => {
+        state.orderRequest = false;
+      });
   },
   selectors: {
     selectOrderRequest: (sliceState) => sliceState.orderRequest,
@@ -41,3 +63,4 @@ export const { selectOrderRequest, selectOrderModalData, selectOrderData } =
   orderSlice.selectors;
 
 export const orderReducer = orderSlice.reducer;
+export default orderSlice;
