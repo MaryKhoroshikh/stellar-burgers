@@ -47,12 +47,6 @@ const ingredientsSlice = createSlice({
   },
   selectors: {
     selectIngredients: (sliceState) => sliceState.ingredients,
-    selectBuns: (sliceState) =>
-      sliceState.ingredients.filter((item) => item.type === 'bun'),
-    selectMains: (sliceState) =>
-      sliceState.ingredients.filter((item) => item.type === 'main'),
-    selectSauces: (sliceState) =>
-      sliceState.ingredients.filter((item) => item.type === 'sause'),
     selectIsLoading: (sliceState) => sliceState.isLoading,
     selectIngredientData: (sliceState) => sliceState.ingredientData
   }

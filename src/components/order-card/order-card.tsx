@@ -18,7 +18,7 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const ingredients = useSelector(ingredientsSelectors.selectIngredients);
 
   const handleOpenOrder = () => {
-    dispatch(feedActions.openOrder(order._id));
+    dispatch(feedActions.openOrder(order));
   };
 
   const orderInfo = useMemo(() => {

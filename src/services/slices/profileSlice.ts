@@ -1,4 +1,9 @@
-import { createAsyncThunk, createSlice, isAction } from '@reduxjs/toolkit';
+import {
+  createAsyncThunk,
+  createSlice,
+  isAction,
+  PayloadAction
+} from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder, TUser } from '@utils-types';
 import {
@@ -93,7 +98,7 @@ export const logoutUser = createAsyncThunk(
 );
 
 export const fetchUserOrders = createAsyncThunk(
-  `${SLICE_NAME.ORDER}/fetchUserOrder`,
+  `${SLICE_NAME.PROFILE}/fetchUserOrders`,
   async () => {
     const data = await getOrdersApi();
     return data;
@@ -140,7 +145,8 @@ const profileSlice = createSlice({
       .addMatcher(
         (action) =>
           action.type.toString().startsWith('profile/') &&
-          action.type.toString().endsWith('/pending'),
+          action.type.toString().endsWith('/pending') &&
+          !action.type.toString().includes('profile/fetchUserOrders/pending'),
         (state) => {
           state.requestStatus = 'load';
         }

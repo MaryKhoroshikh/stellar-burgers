@@ -28,15 +28,12 @@ export const fetchFeed = createAsyncThunk(
   }
 );
 
-const getOrderById = (ordersArr: TOrder[], orderOpenedId: string) =>
-  ordersArr.filter((item) => item._id === orderOpenedId)[0];
-
 const feedSlice = createSlice({
   name: SLICE_NAME.FEED,
   initialState,
   reducers: {
-    openOrder: (state, action: PayloadAction<string>) => {
-      state.orderModalData = getOrderById(state.orders, action.payload);
+    openOrder: (state, action: PayloadAction<TOrder>) => {
+      state.orderModalData = action.payload;
     }
   },
   extraReducers: (builder) => {

@@ -8,10 +8,6 @@ export const ProfileMenu: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(profileActions.fetchUserOrders());
-  }, []);
-
   const handleLogout = () => {
     dispatch(profileActions.logoutUser());
   };

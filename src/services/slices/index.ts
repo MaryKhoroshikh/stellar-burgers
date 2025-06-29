@@ -5,11 +5,11 @@ import profileSlice, {
   registerUser,
   updateUser,
   logoutUser
-} from './profile';
-import orderSlice, { fetchOrder } from './order';
+} from './profileSlice';
+import orderSlice, { fetchOrder } from './orderSlice';
 import feedSlice, { fetchFeed } from './feedSlice';
 import burgerSlice from './burgerSlice';
-import ingredientsSlice from './ingredients';
+import ingredientsSlice from './ingredientsSlice';
 
 export const profileSelectors = profileSlice.selectors;
 export const profileActions = {
