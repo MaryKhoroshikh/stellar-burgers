@@ -6,18 +6,12 @@ import { getIngredientsApi } from '@api';
 
 export interface IngredientsState {
   ingredients: TIngredient[];
-  buns: TIngredient[];
-  mains: TIngredient[];
-  sauces: TIngredient[];
   isLoading: boolean;
   ingredientData: TIngredient | null;
 }
 
 const initialState: IngredientsState = {
   ingredients: [],
-  buns: [],
-  mains: [],
-  sauces: [],
   isLoading: false,
   ingredientData: null
 };
@@ -26,11 +20,10 @@ export const fetchIngredients = createAsyncThunk(
   `${SLICE_NAME.INGREDIENTS}/fetchIngredients`,
   async () => {
     const data = await getIngredientsApi();
-    return {
-      buns: data.filter((item) => item.type === 'bun'),
-      mains: data.filter((item) => item.type === 'main'),
-      sauces: data.filter((item) => item.type === 'sauce')
-    };
+    return data;
+    // buns: data.filter((item) => item.type === 'bun'),
+    // mains: data.filter((item) => item.type === 'main'),
+    // sauces: data.filter((item) => item.type === 'sauce')
   }
 );
 
@@ -48,28 +41,24 @@ const ingredientsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchIngredients.fulfilled, (state, action) => {
-        state.buns = action.payload.buns;
-        state.mains = action.payload.mains;
-        state.sauces = action.payload.sauces;
+        state.ingredients = action.payload;
+        state.isLoading = false;
+      })
+      .addCase(fetchIngredients.rejected, (state) => {
         state.isLoading = false;
       });
   },
   selectors: {
-    selectBuns: (sliceState) => sliceState.buns,
-    selectMains: (sliceState) => sliceState.mains,
-    selectSauces: (sliceState) => sliceState.sauces,
+    selectIngredients: (sliceState) => sliceState.ingredients,
+    selectBuns: (sliceState) =>
+      sliceState.ingredients.filter((item) => item.type === 'bun'),
+    selectMains: (sliceState) =>
+      sliceState.ingredients.filter((item) => item.type === 'main'),
+    selectSauces: (sliceState) =>
+      sliceState.ingredients.filter((item) => item.type === 'sause'),
     selectIsLoading: (sliceState) => sliceState.isLoading,
     selectIngredientData: (sliceState) => sliceState.ingredientData
   }
 });
 
-export const {
-  selectBuns,
-  selectMains,
-  selectSauces,
-  selectIsLoading,
-  selectIngredientData
-} = ingredientsSlice.selectors;
-
-export const ingredientsReducer = ingredientsSlice.reducer;
-export const { openIngredient } = ingredientsSlice.actions;
+export default ingredientsSlice;

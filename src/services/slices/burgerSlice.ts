@@ -50,7 +50,7 @@ const addingIngredients = (
   return arr;
 };
 
-const constructorSlice = createSlice({
+const burgerSlice = createSlice({
   name: SLICE_NAME.CONSTRUCTOR_BURGER,
   initialState,
   reducers: {
@@ -96,8 +96,4 @@ const constructorSlice = createSlice({
   }
 });
 
-export const { selectConstructorItems } = constructorSlice.selectors;
-
-export const constructorReducer = constructorSlice.reducer;
-export const { addIngredient, moveUp, moveDown, deleteIngredient } =
-  constructorSlice.actions;
+export default burgerSlice;

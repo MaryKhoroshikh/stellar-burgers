@@ -4,7 +4,7 @@ import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 
 import { useSelector } from 'react-redux';
-import { selectOrders, selectFeed } from '../../services/slices/ordersList';
+import { feedSelectors } from '@slices';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders
@@ -14,8 +14,8 @@ const getOrders = (orders: TOrder[], status: string): number[] =>
 
 export const FeedInfo: FC = () => {
   /** TODO: взять переменные из стора */
-  const orders = useSelector(selectOrders);
-  const feed = useSelector(selectFeed);
+  const orders = useSelector(feedSelectors.selectOrders);
+  const feed = useSelector(feedSelectors.selectFeed);
 
   const readyOrders = getOrders(orders, 'done');
 

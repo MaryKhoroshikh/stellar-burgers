@@ -2,24 +2,24 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from 'react-redux';
-import { selectConstructorItems } from '../../services/slices/consrtuctorB';
 import {
-  selectOrderRequest,
-  selectOrderModalData
-} from '../../services/slices/order';
-import { orderAction, profileSelectors } from '@slices';
+  burgerSelectors,
+  orderAction,
+  orderSelectors,
+  profileSelectors
+} from '@slices';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
 
 export const BurgerConstructor: FC = () => {
-  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = useSelector(selectConstructorItems);
-  const orderRequest = useSelector(selectOrderRequest);
-  const orderModalData = useSelector(selectOrderModalData);
-
-  const user = useSelector(profileSelectors.selectUser);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
+  const constructorItems = useSelector(burgerSelectors.selectConstructorItems);
+  const orderRequest = useSelector(orderSelectors.selectOrderRequest);
+  const orderModalData = useSelector(orderSelectors.selectOrderModalData);
+  const user = useSelector(profileSelectors.selectUser);
+
   const getIngredientsIds = () => {
     const arr = constructorItems.ingredients.map((item) => item._id);
     arr.push(constructorItems.bun._id);
@@ -34,6 +34,7 @@ export const BurgerConstructor: FC = () => {
       dispatch(orderAction.fetchOrder(getIngredientsIds()));
     }
   };
+
   const closeOrderModal = () => {
     dispatch(orderAction.closeModal());
   };

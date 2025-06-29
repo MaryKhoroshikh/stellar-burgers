@@ -2,9 +2,9 @@ import { Preloader } from '@ui';
 import { FeedUI } from '@ui-pages';
 import { FC, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { fetchFeed } from '../../services/slices/ordersList';
+import { fetchFeed } from '../../services/slices/feedSlice';
 import { useDispatch } from '../../services/store';
-import { feedSelectors } from '@slices';
+import { feedActions, feedSelectors } from '@slices';
 
 export const Feed: FC = () => {
   /** TODO: взять переменную из стора */
@@ -12,11 +12,11 @@ export const Feed: FC = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchFeed());
+    dispatch(feedActions.fetchFeed());
   }, []);
 
   const handleGetFeeds = () => {
-    dispatch(fetchFeed());
+    dispatch(feedActions.fetchFeed());
   };
 
   if (!orders.length) {

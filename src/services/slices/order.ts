@@ -48,8 +48,4 @@ const orderSlice = createSlice({
   }
 });
 
-export const { selectOrderRequest, selectOrderModalData } =
-  orderSlice.selectors;
-
-export const orderReducer = orderSlice.reducer;
 export default orderSlice;

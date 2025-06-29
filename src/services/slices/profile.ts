@@ -162,8 +162,4 @@ const profileSlice = createSlice({
   }
 });
 
-export const { selectUser, selectOrders, selectRequestStatus } =
-  profileSlice.selectors;
-
-export const profileReducer = profileSlice.reducer;
 export default profileSlice;

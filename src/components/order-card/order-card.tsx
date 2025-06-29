@@ -5,13 +5,8 @@ import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
 import { useSelector } from 'react-redux';
-import {
-  selectBuns,
-  selectMains,
-  selectSauces
-} from '../../services/slices/ingredients';
 import { useDispatch } from '../../services/store';
-import { feedActions } from '@slices';
+import { feedActions, ingredientsSelectors } from '@slices';
 
 const maxIngredients = 6;
 
@@ -20,11 +15,7 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const dispatch = useDispatch();
 
   /** TODO: взять переменную из стора */
-  const ingredients = [
-    ...useSelector(selectBuns),
-    ...useSelector(selectMains),
-    ...useSelector(selectSauces)
-  ];
+  const ingredients = useSelector(ingredientsSelectors.selectIngredients);
 
   const handleOpenOrder = () => {
     dispatch(feedActions.openOrder(order._id));

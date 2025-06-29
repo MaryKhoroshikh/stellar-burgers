@@ -5,10 +5,9 @@ import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
 
 import { useDispatch } from '../../services/store';
-import { openIngredient } from '../../services/slices/ingredients';
 import { TIngredient } from '@utils-types';
-import { addIngredient } from '../../services/slices/consrtuctorB';
 import { nanoid } from '@reduxjs/toolkit';
+import { burgerActions, ingredientsActions } from '@slices';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {
@@ -16,10 +15,10 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
 
     const dispatch = useDispatch();
     const handleAdd = () => {
-      dispatch(addIngredient({ ...ingredient, id: nanoid() }));
+      dispatch(burgerActions.addIngredient({ ...ingredient, id: nanoid() }));
     };
     const handleOpenIngredient = (ingredient: TIngredient) => {
-      dispatch(openIngredient(ingredient));
+      dispatch(ingredientsActions.openIngredient(ingredient));
     };
 
     return (
