@@ -21,9 +21,6 @@ export const fetchIngredients = createAsyncThunk(
   async () => {
     const data = await getIngredientsApi();
     return data;
-    // buns: data.filter((item) => item.type === 'bun'),
-    // mains: data.filter((item) => item.type === 'main'),
-    // sauces: data.filter((item) => item.type === 'sauce')
   }
 );
 

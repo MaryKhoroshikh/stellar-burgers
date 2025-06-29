@@ -51,7 +51,7 @@ const addingIngredients = (
 };
 
 const burgerSlice = createSlice({
-  name: SLICE_NAME.CONSTRUCTOR_BURGER,
+  name: SLICE_NAME.BURGER,
   initialState,
   reducers: {
     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {

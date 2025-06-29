@@ -21,7 +21,7 @@ const initialState: OrdersListState = {
 };
 
 export const fetchFeed = createAsyncThunk(
-  `${SLICE_NAME.ORDERS_LIST}/fetchFeed`,
+  `${SLICE_NAME.FEED}/fetchFeed`,
   async () => {
     const data = await getFeedsApi();
     return data;
@@ -32,7 +32,7 @@ const getOrderById = (ordersArr: TOrder[], orderOpenedId: string) =>
   ordersArr.filter((item) => item._id === orderOpenedId)[0];
 
 const feedSlice = createSlice({
-  name: SLICE_NAME.ORDERS_LIST,
+  name: SLICE_NAME.FEED,
   initialState,
   reducers: {
     openOrder: (state, action: PayloadAction<string>) => {

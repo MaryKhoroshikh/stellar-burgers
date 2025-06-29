@@ -15,8 +15,8 @@ import {
 
 const rootReducer = combineReducers({
   [SLICE_NAME.INGREDIENTS]: ingredientsSlice.reducer,
-  [SLICE_NAME.CONSTRUCTOR_BURGER]: burgerSlice.reducer,
-  [SLICE_NAME.ORDERS_LIST]: feedSlice.reducer,
+  [SLICE_NAME.BURGER]: burgerSlice.reducer,
+  [SLICE_NAME.FEED]: feedSlice.reducer,
   [SLICE_NAME.PROFILE]: profileSlice.reducer,
   [SLICE_NAME.ORDER]: orderSlice.reducer
 });
