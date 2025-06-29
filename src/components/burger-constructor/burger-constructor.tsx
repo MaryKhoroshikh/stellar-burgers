@@ -15,19 +15,21 @@ export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
-  const constructorItems = useSelector(burgerSelectors.selectConstructorItems);
+  const constructorBun = useSelector(burgerSelectors.selectBun);
+  const constructorIngredients = useSelector(burgerSelectors.selectIngredients);
   const orderRequest = useSelector(orderSelectors.selectOrderRequest);
   const orderModalData = useSelector(orderSelectors.selectOrderModalData);
   const user = useSelector(profileSelectors.selectUser);
 
   const getIngredientsIds = () => {
-    const arr = constructorItems.ingredients.map((item) => item._id);
-    arr.push(constructorItems.bun._id);
+    const arr = constructorIngredients.map((item) => item._id);
+    arr.push(constructorBun._id);
+    arr.unshift(constructorBun._id);
     return arr;
   };
 
   const onOrderClick = () => {
-    if (!constructorItems.bun || orderRequest) return;
+    if (!constructorBun || orderRequest) return;
     if (user.name === '') {
       navigate('/login');
     } else {
@@ -41,12 +43,12 @@ export const BurgerConstructor: FC = () => {
 
   const price = useMemo(
     () =>
-      (constructorItems.bun ? constructorItems.bun.price * 2 : 0) +
-      constructorItems.ingredients.reduce(
+      (constructorBun ? constructorBun.price * 2 : 0) +
+      constructorIngredients.reduce(
         (s: number, v: TConstructorIngredient) => s + v.price,
         0
       ),
-    [constructorItems]
+    [constructorBun, constructorIngredients]
   );
 
   //return null;
@@ -55,7 +57,10 @@ export const BurgerConstructor: FC = () => {
     <BurgerConstructorUI
       price={price}
       orderRequest={orderRequest}
-      constructorItems={constructorItems}
+      constructorItems={{
+        bun: constructorBun,
+        ingredients: constructorIngredients
+      }}
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}

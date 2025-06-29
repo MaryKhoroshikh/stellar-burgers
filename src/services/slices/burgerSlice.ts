@@ -3,17 +3,13 @@ import { SLICE_NAME } from './slicesName';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 
 export interface ConstructorState {
-  constructorItems: {
-    bun: TConstructorIngredient | { price: number; _id: string };
-    ingredients: TConstructorIngredient[];
-  };
+  bun: TConstructorIngredient | { price: number; _id: string };
+  ingredients: TConstructorIngredient[];
 }
 
 const initialState: ConstructorState = {
-  constructorItems: {
-    bun: { price: 0, _id: '' },
-    ingredients: []
-  }
+  bun: { price: 0, _id: '' },
+  ingredients: []
 };
 
 const moveIngredients = (
@@ -56,33 +52,30 @@ const burgerSlice = createSlice({
   reducers: {
     addIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
       if (action.payload.type === 'bun') {
-        state.constructorItems.bun = action.payload;
+        state.bun = action.payload;
       } else {
-        state.constructorItems.ingredients = addingIngredients(
-          state.constructorItems.ingredients,
+        state.ingredients = addingIngredients(
+          state.ingredients,
           action.payload
         );
       }
     },
     moveUp: (state, action: PayloadAction<string>) => {
-      state.constructorItems.ingredients = moveIngredients(
-        state.constructorItems.ingredients,
+      state.ingredients = moveIngredients(
+        state.ingredients,
         action.payload,
         'up'
       );
     },
     moveDown: (state, action: PayloadAction<string>) => {
-      state.constructorItems.ingredients = moveIngredients(
-        state.constructorItems.ingredients,
+      state.ingredients = moveIngredients(
+        state.ingredients,
         action.payload,
         'down'
       );
     },
     deleteIngredient: (state, action: PayloadAction<string>) => {
-      state.constructorItems.ingredients = deletingIngredient(
-        state.constructorItems.ingredients,
-        action.payload
-      );
+      state.ingredients = deletingIngredient(state.ingredients, action.payload);
     }
   },
   extraReducers: (builder) => {
@@ -92,7 +85,8 @@ const burgerSlice = createSlice({
     );
   },
   selectors: {
-    selectConstructorItems: (sliceState) => sliceState.constructorItems
+    selectBun: (sliceState) => sliceState.bun,
+    selectIngredients: (sliceState) => sliceState.ingredients
   }
 });
 
