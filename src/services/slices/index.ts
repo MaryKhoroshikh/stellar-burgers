@@ -9,7 +9,7 @@ import profileSlice, {
 import orderSlice, { fetchOrder, fetchOrderByNumber } from './orderSlice';
 import feedSlice, { fetchFeed } from './feedSlice';
 import burgerSlice from './burgerSlice';
-import ingredientsSlice from './ingredientsSlice';
+import ingredientsSlice, { fetchIngredients } from './ingredientsSlice';
 
 export const profileSelectors = profileSlice.selectors;
 export const profileActions = {
@@ -39,4 +39,7 @@ export const burgerSelectors = burgerSlice.selectors;
 export const burgerActions = burgerSlice.actions;
 
 export const ingredientsSelectors = ingredientsSlice.selectors;
-export const ingredientsActions = ingredientsSlice.actions;
+export const ingredientsActions = {
+  ...ingredientsSlice.actions,
+  fetchIngredients
+};

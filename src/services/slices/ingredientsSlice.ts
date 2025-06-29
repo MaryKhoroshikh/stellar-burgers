@@ -24,12 +24,15 @@ export const fetchIngredients = createAsyncThunk(
   }
 );
 
+const findIngredient = (arr: TIngredient[], id: string) =>
+  arr.filter((item) => item._id === id)[0];
+
 const ingredientsSlice = createSlice({
   name: SLICE_NAME.INGREDIENTS,
   initialState,
   reducers: {
-    openIngredient: (state, action: PayloadAction<TIngredient>) => {
-      state.ingredientData = action.payload;
+    openIngredient: (state, action: PayloadAction<string>) => {
+      state.ingredientData = findIngredient(state.ingredients, action.payload);
     }
   },
   extraReducers: (builder) => {

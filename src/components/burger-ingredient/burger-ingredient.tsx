@@ -18,7 +18,7 @@ export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
       dispatch(burgerActions.addIngredient({ ...ingredient, id: nanoid() }));
     };
     const handleOpenIngredient = (ingredient: TIngredient) => {
-      dispatch(ingredientsActions.openIngredient(ingredient));
+      dispatch(ingredientsActions.openIngredient(ingredient._id));
     };
 
     return (
