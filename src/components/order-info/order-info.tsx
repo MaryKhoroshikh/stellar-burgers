@@ -1,15 +1,31 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from 'react-redux';
-import { feedSelectors, ingredientsSelectors } from '@slices';
+import {
+  feedSelectors,
+  ingredientsSelectors,
+  orderAction,
+  orderSelectors
+} from '@slices';
+import { useDispatch } from '../../services/store';
+import { useParams } from 'react-router-dom';
 
 export const OrderInfo: FC = () => {
+  const dispatch = useDispatch();
+  const number = useParams().number || '';
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = useSelector(feedSelectors.selectOrderModalData);
-
+  const orderData =
+    useSelector(feedSelectors.selectOrderModalData) ||
+    useSelector(orderSelectors.selectOrderByNumber);
   const ingredients = useSelector(ingredientsSelectors.selectIngredients);
+
+  useEffect(() => {
+    if (!orderData) {
+      dispatch(orderAction.fetchOrderByNumber(+number));
+    }
+  }, [dispatch, orderData, number]);
 
   /* Готовим данные для отображения */
   const orderInfo = useMemo(() => {

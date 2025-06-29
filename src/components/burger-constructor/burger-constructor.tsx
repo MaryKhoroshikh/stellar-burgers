@@ -17,8 +17,8 @@ export const BurgerConstructor: FC = () => {
   /** TODO: взять переменные constructorItems, orderRequest и orderModalData из стора */
   const constructorBun = useSelector(burgerSelectors.selectBun);
   const constructorIngredients = useSelector(burgerSelectors.selectIngredients);
-  const orderRequest = useSelector(orderSelectors.selectOrderRequest);
-  const orderModalData = useSelector(orderSelectors.selectOrderModalData);
+  const orderRequest = useSelector(orderSelectors.selectNewOrderRequest);
+  const orderModalData = useSelector(orderSelectors.selectNewOrderModalData);
   const user = useSelector(profileSelectors.selectUser);
 
   const getIngredientsIds = () => {

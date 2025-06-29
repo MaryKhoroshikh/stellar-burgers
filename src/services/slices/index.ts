@@ -6,7 +6,7 @@ import profileSlice, {
   updateUser,
   logoutUser
 } from './profileSlice';
-import orderSlice, { fetchOrder } from './orderSlice';
+import orderSlice, { fetchOrder, fetchOrderByNumber } from './orderSlice';
 import feedSlice, { fetchFeed } from './feedSlice';
 import burgerSlice from './burgerSlice';
 import ingredientsSlice from './ingredientsSlice';
@@ -25,7 +25,8 @@ export const profileActions = {
 export const orderSelectors = orderSlice.selectors;
 export const orderAction = {
   ...orderSlice.actions,
-  fetchOrder
+  fetchOrder,
+  fetchOrderByNumber
 };
 
 export const feedSelectors = feedSlice.selectors;

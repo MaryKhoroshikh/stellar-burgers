@@ -91,8 +91,10 @@ export const updateUser = createAsyncThunk(
 export const logoutUser = createAsyncThunk(
   `${SLICE_NAME.PROFILE}/logoutUser`,
   async () => {
-    const data = await logoutApi();
-    deleteCookie('accessToken');
+    const data = await logoutApi().then(() => {
+      localStorage.clear();
+      deleteCookie('accessToken');
+    });
     return data;
   }
 );
