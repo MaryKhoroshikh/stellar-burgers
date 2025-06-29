@@ -9,6 +9,8 @@ import profileSlice, {
 
 import orderSlice, { fetchOrder } from './order';
 
+import ordersListSlice from './ordersList';
+
 export const profileActions = {
   ...profileSlice.actions,
   fetchUser,
@@ -24,3 +26,6 @@ export const orderAction = {
   ...orderSlice.actions,
   fetchOrder
 };
+
+export const feedSelectors = ordersListSlice.selectors;
+export const feedActions = ordersListSlice.actions;

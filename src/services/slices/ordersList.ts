@@ -1,7 +1,7 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder } from '@utils-types';
-import { getFeedsApi, getOrderByNumberApi } from '@api';
+import { getFeedsApi } from '@api';
 
 export interface OrdersListState {
   orders: TOrder[];
@@ -28,30 +28,26 @@ export const fetchFeed = createAsyncThunk(
   }
 );
 
-export const fetchOrder = createAsyncThunk(
-  `${SLICE_NAME.ORDERS_LIST}/fetchOrder`,
-  async (param: number) => {
-    const data = await getOrderByNumberApi(param);
-    return data.orders[0];
-  }
-);
+const getOrderFromList = (ordersArr: TOrder[], orderOpenedId: string) =>
+  ordersArr.filter((item) => item._id === orderOpenedId)[0];
 
 const ordersListSlice = createSlice({
   name: SLICE_NAME.ORDERS_LIST,
   initialState,
-  reducers: {},
+  reducers: {
+    openOrder: (state, action: PayloadAction<string>) => {
+      state.orderModalData = getOrderFromList(state.orders, action.payload);
+      getOrderFromList(state.orders, action.payload);
+    }
+  },
   extraReducers: (builder) => {
-    builder
-      .addCase(fetchFeed.fulfilled, (state, action) => {
-        state.orders = action.payload.orders;
-        state.feed = {
-          total: action.payload.total,
-          totalToday: action.payload.totalToday
-        };
-      })
-      .addCase(fetchOrder.fulfilled, (state, action) => {
-        state.orderModalData = action.payload;
-      });
+    builder.addCase(fetchFeed.fulfilled, (state, action) => {
+      state.orders = action.payload.orders;
+      state.feed = {
+        total: action.payload.total,
+        totalToday: action.payload.totalToday
+      };
+    });
   },
   selectors: {
     selectOrders: (sliceState) => sliceState.orders,
@@ -63,4 +59,4 @@ const ordersListSlice = createSlice({
 export const { selectOrders, selectFeed } = ordersListSlice.selectors;
 
 export const ordersListReducer = ordersListSlice.reducer;
-export const { selectOrderModalData } = ordersListSlice.selectors;
+export default ordersListSlice;

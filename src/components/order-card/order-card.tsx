@@ -11,7 +11,7 @@ import {
   selectSauces
 } from '../../services/slices/ingredients';
 import { useDispatch } from '../../services/store';
-import { fetchOrder } from '../../services/slices/ordersList';
+import { feedActions } from '@slices';
 
 const maxIngredients = 6;
 
@@ -27,7 +27,7 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   ];
 
   const handleOpenOrder = () => {
-    dispatch(fetchOrder(order.number));
+    dispatch(feedActions.openOrder(order._id));
   };
 
   const orderInfo = useMemo(() => {

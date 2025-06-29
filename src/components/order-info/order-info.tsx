@@ -3,16 +3,16 @@ import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useSelector } from 'react-redux';
-import { selectOrderModalData } from '../../services/slices/ordersList';
 import {
   selectBuns,
   selectMains,
   selectSauces
 } from '../../services/slices/ingredients';
+import { feedSelectors } from '@slices';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
-  const orderData = useSelector(selectOrderModalData);
+  const orderData = useSelector(feedSelectors.selectOrderModalData);
 
   const ingredients = [
     ...useSelector(selectBuns),
