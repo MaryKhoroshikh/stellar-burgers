@@ -18,10 +18,8 @@ import { IngredientDetails } from '@components';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredients';
-import { fetchFeed } from '../../services/slices/ordersList';
 import { profileActions } from '../../services/slices/index';
 import ProtectedRoute from '../protected-route';
-import { fetchUserOrders } from '../../services/slices/profile';
 
 function AppRouter() {
   const navigate = useNavigate();
@@ -30,8 +28,6 @@ function AppRouter() {
   const background = location.state?.background;
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(fetchFeed());
-    dispatch(fetchUserOrders());
     dispatch(profileActions.fetchUser())
       .unwrap()
       .catch(() => console.log('ошибка запроса пользователя'))
