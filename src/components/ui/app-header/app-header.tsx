@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styles from './app-header.module.css';
 import { TAppHeaderUIProps } from './type';
 import {
@@ -16,13 +16,27 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
         <>
           <BurgerIcon type={'primary'} />
           <p className='text text_type_main-default ml-2 mr-10'>
-            <Link to='/'>Конструктор</Link>
+            <NavLink
+              to='/'
+              className={({ isActive }) =>
+                `${styles.link} ${isActive ? styles.link_active : ''}`
+              }
+            >
+              Конструктор
+            </NavLink>
           </p>
         </>
         <>
           <ListIcon type={'primary'} />
           <p className='text text_type_main-default ml-2'>
-            <Link to='/feed'>Лента заказов</Link>
+            <NavLink
+              to='/feed'
+              className={({ isActive }) =>
+                `${styles.link} ${isActive ? styles.link_active : ''}`
+              }
+            >
+              Лента заказов
+            </NavLink>
           </p>
         </>
       </div>
@@ -32,7 +46,14 @@ export const AppHeaderUI: FC<TAppHeaderUIProps> = ({ userName }) => (
       <div className={styles.link_position_last}>
         <ProfileIcon type={'primary'} />
         <p className='text text_type_main-default ml-2'>
-          <Link to='/profile'>{userName || 'Личный кабинет'}</Link>
+          <NavLink
+            to='/profile'
+            className={({ isActive }) =>
+              `${styles.link} ${isActive ? styles.link_active : ''}`
+            }
+          >
+            {userName || 'Личный кабинет'}
+          </NavLink>
         </p>
       </div>
     </nav>
