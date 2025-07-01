@@ -3,10 +3,12 @@ import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from '../../services/store';
 import { profileActions, profileSelectors } from '@slices';
+import { Preloader } from '@ui';
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */
   const user = useSelector(profileSelectors.selectUser);
+  const isRequestLoading = useSelector(profileSelectors.selectRequestStatus);
   const dispatch = useDispatch();
 
   const [formValue, setFormValue] = useState({
@@ -21,6 +23,7 @@ export const Profile: FC = () => {
       name: user?.name || '',
       email: user?.email || ''
     }));
+    dispatch(profileActions.fetchUserOrders());
   }, [user]);
 
   const isFormChanged =
@@ -48,6 +51,10 @@ export const Profile: FC = () => {
       [e.target.name]: e.target.value
     }));
   };
+
+  if (isRequestLoading === 'load') {
+    return <Preloader />;
+  }
 
   return (
     <ProfileUI

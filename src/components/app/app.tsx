@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import { fetchIngredients } from '../../services/slices/ingredientsSlice';
 import { profileActions } from '../../services/slices/index';
 import ProtectedRoute from '../protected-route';
+import { getCookie } from '../../utils/cookie';
 
 function AppRouter() {
   const navigate = useNavigate();
@@ -28,10 +29,15 @@ function AppRouter() {
   const background = location.state?.background;
   useEffect(() => {
     dispatch(fetchIngredients());
-    dispatch(profileActions.fetchUser())
-      .unwrap()
-      .catch(() => console.log('ошибка запроса пользователя'))
-      .finally(() => dispatch(profileActions.setProfileCheck()));
+    //проверка пользователя
+    if (getCookie('accessToken')) {
+      dispatch(profileActions.fetchUser())
+        .unwrap()
+        .catch(() => console.log('ошибка запроса пользователя'))
+        .finally(() => dispatch(profileActions.setProfileCheck()));
+    } else {
+      dispatch(profileActions.setProfileCheck());
+    }
   }, []);
 
   const onCloseModal = () => {
@@ -43,8 +49,28 @@ function AppRouter() {
       <Routes location={background || location}>
         <Route path='/' element={<ConstructorPage />} />
         <Route path='/feed' element={<Feed />} />
-        <Route path='/feed/:number' element={<OrderInfo />} />
-        <Route path='/ingredients/:id' element={<IngredientDetails />} />
+        <Route
+          path='/feed/:number'
+          element={
+            <div className={styles.detailPageWrap}>
+              <OrderInfo />
+            </div>
+          }
+        />
+        <Route
+          path='/ingredients/:id'
+          element={
+            <div className={styles.detailPageWrap}>
+              <h3
+                className={`
+                ${styles.detailHeader} text text_type_main-large`}
+              >
+                Детали ингридиента
+              </h3>
+              <IngredientDetails />
+            </div>
+          }
+        />
         <Route
           path='/login'
           element={
@@ -97,7 +123,9 @@ function AppRouter() {
           path='/profile/orders/:number'
           element={
             <ProtectedRoute isPrivate>
-              <OrderInfo />
+              <div className={styles.detailPageWrap}>
+                <OrderInfo />
+              </div>
             </ProtectedRoute>
           }
         />

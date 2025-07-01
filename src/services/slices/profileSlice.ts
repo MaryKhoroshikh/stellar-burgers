@@ -1,9 +1,4 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  isAction,
-  PayloadAction
-} from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder, TUser } from '@utils-types';
 import {
@@ -147,8 +142,7 @@ const profileSlice = createSlice({
       .addMatcher(
         (action) =>
           action.type.toString().startsWith('profile/') &&
-          action.type.toString().endsWith('/pending') &&
-          !action.type.toString().includes('profile/fetchUserOrders/pending'),
+          action.type.toString().endsWith('/pending'),
         (state) => {
           state.requestStatus = 'load';
         }
