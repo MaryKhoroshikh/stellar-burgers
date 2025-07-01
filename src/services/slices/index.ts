@@ -4,7 +4,9 @@ import profileSlice, {
   loginUser,
   registerUser,
   updateUser,
-  logoutUser
+  logoutUser,
+  forgotPassword,
+  resetPassword
 } from './profileSlice';
 import orderSlice, { fetchOrder, fetchOrderByNumber } from './orderSlice';
 import feedSlice, { fetchFeed } from './feedSlice';
@@ -19,7 +21,9 @@ export const profileActions = {
   loginUser,
   registerUser,
   updateUser,
-  logoutUser
+  logoutUser,
+  forgotPassword,
+  resetPassword
 };
 
 export const orderSelectors = orderSlice.selectors;

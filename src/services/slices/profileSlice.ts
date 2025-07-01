@@ -2,11 +2,13 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { SLICE_NAME } from './slicesName';
 import { TOrder, TUser } from '@utils-types';
 import {
+  forgotPasswordApi,
   getOrdersApi,
   getUserApi,
   loginUserApi,
   logoutApi,
   registerUserApi,
+  resetPasswordApi,
   TRegisterData,
   updateUserApi
 } from '@api';
@@ -59,21 +61,21 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-// export const forgotPassword = createAsyncThunk(
-//   `${SLICE_NAME.PROFILE}/forgotPassword`,
-//   async (userData: {email: string}) => {
-//     const data = await forgotPasswordApi(userData);
-//     return data;
-//   }
-// );
+export const forgotPassword = createAsyncThunk(
+  `${SLICE_NAME.PROFILE}/forgotPassword`,
+  async (userData: { email: string }) => {
+    const data = await forgotPasswordApi(userData);
+    return data;
+  }
+);
 
-// export const resetPassword = createAsyncThunk(
-//   `${SLICE_NAME.PROFILE}/resetPassword`,
-//   async () => {
-//     const data = await resetPasswordApi();
-//     return data;
-//   }
-// );
+export const resetPassword = createAsyncThunk(
+  `${SLICE_NAME.PROFILE}/resetPassword`,
+  async (userAswer: { password: string; token: string }) => {
+    const data = await resetPasswordApi(userAswer);
+    return data;
+  }
+);
 
 export const updateUser = createAsyncThunk(
   `${SLICE_NAME.PROFILE}/updateUser`,
@@ -138,6 +140,12 @@ const profileSlice = createSlice({
       .addCase(fetchUserOrders.fulfilled, (state, action) => {
         state.requestStatus = 'done';
         state.orders = action.payload;
+      })
+      .addCase(forgotPassword.fulfilled, (state) => {
+        state.requestStatus = 'done';
+      })
+      .addCase(resetPassword.fulfilled, (state) => {
+        state.requestStatus = 'done';
       })
       .addMatcher(
         (action) =>
