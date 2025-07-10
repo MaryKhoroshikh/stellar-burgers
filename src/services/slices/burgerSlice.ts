@@ -25,7 +25,8 @@ const moveIngredients = (
       arr[index - 1],
       ...arr.slice(index + 1)
     ];
-  } else {
+  }
+  if (where === 'down') {
     return [
       ...arr.slice(0, index),
       arr[index + 1],
@@ -33,6 +34,7 @@ const moveIngredients = (
       ...arr.slice(index + 2)
     ];
   }
+  return arr;
 };
 
 const deletingIngredient = (arr: TConstructorIngredient[], deletedId: string) =>
