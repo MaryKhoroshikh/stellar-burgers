@@ -4,14 +4,22 @@ import { useLocation } from 'react-router-dom';
 import { OrderCardProps } from './type';
 import { TIngredient } from '@utils-types';
 import { OrderCardUI } from '../ui/order-card';
+import { useSelector } from 'react-redux';
+import { useDispatch } from '../../services/store';
+import { feedActions, ingredientsSelectors } from '@slices';
 
 const maxIngredients = 6;
 
 export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
   const location = useLocation();
+  const dispatch = useDispatch();
 
   /** TODO: взять переменную из стора */
-  const ingredients: TIngredient[] = [];
+  const ingredients = useSelector(ingredientsSelectors.selectIngredients);
+
+  const handleOpenOrder = () => {
+    dispatch(feedActions.openOrder(order));
+  };
 
   const orderInfo = useMemo(() => {
     if (!ingredients.length) return null;
@@ -52,6 +60,7 @@ export const OrderCard: FC<OrderCardProps> = memo(({ order }) => {
       orderInfo={orderInfo}
       maxIngredients={maxIngredients}
       locationState={{ background: location }}
+      handleOpenOrder={handleOpenOrder}
     />
   );
 });
