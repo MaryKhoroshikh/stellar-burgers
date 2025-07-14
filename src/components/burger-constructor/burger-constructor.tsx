@@ -10,6 +10,7 @@ import {
 } from '@slices';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
+import { getCookie } from '../../utils/cookie';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorBun || orderRequest) return;
-    if (user.name === '') {
+    if (!getCookie('accessToken')) {
       navigate('/login');
     } else {
       dispatch(orderAction.fetchOrder(getIngredientsIds()));
@@ -64,6 +65,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      data-cy='order-button'
     />
   );
 };

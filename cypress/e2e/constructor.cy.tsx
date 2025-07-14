@@ -10,26 +10,71 @@ describe('проверка добавления ингредиентов из с
         cy.get('[data-cy=burger-bun-top]').contains('ingredient 1').should('exist');
         cy.get('[data-cy=burger-bun-bottom]').contains('ingredient 1').should('exist');
     });
+
+    it('добавление начинки', () => {
+        cy.get('[data-cy=indgedient-main]').contains('Добавить').click();
+        cy.get('[data-cy=indgedient-sause]').contains('Добавить').click();
+        cy.get('[data-cy=burger-ingredients]').contains('ingredient 2').should('exist');
+        cy.get('[data-cy=burger-ingredients]').contains('ingredient 4').should('exist');
+    });
 });
 
-// describe('проверяем доступность приложения', function() {
+describe('работа модальных окон', function() {
+    beforeEach(function () {
+    // перехват запроса ингредиентов
+        cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
+        cy.visit('http://localhost:4000');
+    });
 
-//     it('добавление ингредиента из списка в конструктор', () => {
-//         // находим в DOM дереве кнопку с атрибутом data-cy=1
-//     });
-//     it('работа модальных окон', () => {
-//         // открытие модального окна ингредиента
-//         // закрытие по клику на крестик
-//         // закрытие по клику на оверлей (желательно)
-//     });
-//     it('создание заказа', () => {
-//         // создать моковые данные ответа на запрос данных пользователя
-//         // создать моковые данные ответа на запрос создания заказа
-//         // подставить моковые токены авторизации
-//         // создать бургер: добавить булку, добавить ингредиент
-//         // клик по кнопке «Оформить заказ»
-//         // проверить: модальное окно открылось и номер заказа верный
-//         // закрыть модальное окно и проверить успешность закрытия
-//         // проверить, что конструктор пуст
-//     });
-// });
+    it('проверка открытия модального окна ингредиента', () => {
+        cy.get('[data-cy=indgedient-bun]').contains('ingredient 1').click();
+        cy.get('[data-cy=modal]').should('be.visible');
+        cy.get('[data-cy=modal]').contains('ingredient 1').should('exist');
+    });
+
+    it('проверка закрытия модального окна по клику на крестик', () => {
+        cy.get('[data-cy=indgedient-bun]').contains('ingredient 1').click();
+        cy.get('[data-cy=modal]').find('button').click();
+        cy.get('[data-cy=modal]').should('not.exist');
+    });
+
+    it('проверка закрытия модального окна по клику на оверлей (желательно)', () => {
+        cy.get('[data-cy=indgedient-bun]').contains('ingredient 1').click();
+        cy.get('body').click({ x: 10, y: 10 });
+        cy.get('[data-cy=modal]').should('not.exist');
+    });
+});
+
+describe('создание заказа', function() {
+    beforeEach(function () {
+        cy.intercept('GET', 'api/ingredients', { fixture: 'ingredients.json' });
+        cy.intercept('GET', 'api/auth/user', { fixture: 'user.json' });
+        cy.intercept('POST', 'api/orders', { fixture: 'order.json' });
+        window.localStorage.setItem('refreshToken', JSON.stringify('testRefreshToken'));
+        cy.setCookie('accsessToken', 'testAccsessToken');
+        cy.visit('http://localhost:4000');
+        
+    });
+
+    after(function () {
+        cy.clearLocalStorage();
+        cy.clearCookies();
+    });
+    
+    it('добавление булки', () => {
+        cy.get('[data-cy=indgedient-bun]').contains('Добавить').click();
+        cy.get('[data-cy=indgedient-main]').contains('Добавить').click();
+        cy.get('[data-cy=order-button]').contains('Оформить заказ').click();
+        cy.getCookie('accsessToken').should('exist');
+
+        cy.get('[data-cy=modal]').should('be.visible');
+        cy.get('[data-cy=modal]').contains('123123');
+        cy.get('[data-cy=modal]').find('button').click();
+        cy.get('[data-cy=modal]').should('not.exist');
+        cy.get('[data-cy=burger-bun-bottom]').contains('ingredient 1').should('not.exist');
+        cy.get('[data-cy=burger-ingredients]').contains('ingredient 2').should('not.exist');
+    });
+    // проверить: модальное окно открылось и номер заказа верный
+    // закрыть модальное окно и проверить успешность закрытия
+    // проверить, что конструктор пуст
+});
