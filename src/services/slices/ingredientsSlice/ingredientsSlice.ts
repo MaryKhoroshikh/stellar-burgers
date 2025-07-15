@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { SLICE_NAME } from './slicesName';
+import { SLICE_NAME } from '../slicesName';
 import { TIngredient } from '@utils-types';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getIngredientsApi } from '@api';

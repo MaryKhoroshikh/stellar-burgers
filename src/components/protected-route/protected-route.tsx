@@ -1,7 +1,7 @@
-import { profileSelectors } from '@slices';
 import { useSelector } from '../../services/store';
 import { Preloader } from '@ui';
 import { Navigate, useLocation } from 'react-router-dom';
+import { profileSelectors } from '../../services/slices/profileSlice';
 
 type ProtectedRouteProps = {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { SLICE_NAME } from './slicesName';
+import { SLICE_NAME } from '../slicesName';
 import { TOrder, TUser } from '@utils-types';
 import {
   forgotPasswordApi,
@@ -12,7 +12,7 @@ import {
   TRegisterData,
   updateUserApi
 } from '@api';
-import { deleteCookie, setCookie } from '../../utils/cookie';
+import { deleteCookie, setCookie } from '../../../utils/cookie';
 
 type TRequestStatus = 'load' | 'done' | 'fail';
 

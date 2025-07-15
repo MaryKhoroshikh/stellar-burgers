@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
-import ingredientsSlice from './slices/ingredientsSlice';
-import burgerSlice from './slices/burgerSlice';
-import feedSlice from './slices/feedSlice';
-import profileSlice from './slices/profileSlice';
-import orderSlice from './slices/orderSlice';
+import ingredientsSlice from './slices/ingredientsSlice/ingredientsSlice';
+import burgerSlice from './slices/burgerSlice/burgerSlice';
+import feedSlice from './slices/feedSlice/feedSlice';
+import profileSlice from './slices/profileSlice/profileSlice';
+import orderSlice from './slices/orderSlice/orderSlice';
 import { SLICE_NAME } from './slices/slicesName';
 
 import {
