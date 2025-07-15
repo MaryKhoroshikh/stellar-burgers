@@ -3,10 +3,10 @@ import burgerSliceReducer, { burgerActions } from './index';
 
 describe('тесты синхронных экшенов', () => {
     // начальное состояние, которое будем менять в тестах
-        const initialBurgerState = {
-            bun: { price: 0, _id: '' },
-            ingredients: []
-        }
+    const initialBurgerState = {
+        bun: { price: 0, _id: '' },
+        ingredients: []
+    }
     // игредиенты которые будем добавлять
     const bunExampleIngredient = {
         "id": "a",
@@ -53,36 +53,112 @@ describe('тесты синхронных экшенов', () => {
         "image_large": "https://code.s3.yandex.net/react/code/sauce-02-large.png",
         "__v": 0
     };
+    const mainExampleSame = {
+        "id": "d",
+        "_id": "2",
+        "name": "ingredient 2",
+        "type": "main",
+        "proteins": 420,
+        "fat": 142,
+        "carbohydrates": 242,
+        "calories": 4242,
+        "price": 424,
+        "image": "https://code.s3.yandex.net/react/code/meat-01.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/meat-01-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/meat-01-large.png",
+        "__v": 0
+    };
+    const sauceExampleSame = {
+        "id": "e",
+        "_id": "4",
+        "name": "ingredient 4",
+        "type": "sauce",
+        "proteins": 30,
+        "fat": 20,
+        "carbohydrates": 40,
+        "calories": 30,
+        "price": 90,
+        "image": "https://code.s3.yandex.net/react/code/sauce-02.png",
+        "image_mobile": "https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
+        "image_large": "https://code.s3.yandex.net/react/code/sauce-02-large.png",
+        "__v": 0
+    };
 
-    test('добавить ингредиент', () => {
-        const newState = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(bunExampleIngredient))
-        const { bun } = newState;
+    // let state = initialBurgerState;
 
-        // сравниваем то что получилось с ожидаемым результатом
-        expect(bun).toEqual(
-            { price: 1255, _id: 'a' }
-        )
-    })
+    // afterEach(() => {
+    //     state = initialBurgerState;
+    // });
 
-    // test('снять лайк у трека', () => {
-    //     // снимаем лайк с помощью экшена toggleLike
-    //     const newState = tracksSliceReducer(initialTracksState, toggleLike({ id: 2 }))
+    test('добавить ингредиент - булка', () => {
+        const newState = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(bunExampleIngredient));
+        expect(newState.bun).toEqual(bunExampleIngredient);
+    });
 
-    //     const { tracks } = newState;
+    test('добавить ингредиент - начинка', () => {
+        const newState = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(mainExampleIngredient));
+        expect(newState.ingredients).toEqual([mainExampleIngredient]);
+    });
 
-    //     expect(tracks).toEqual([
-    //         {
-    //             id: 1,
-    //             title: 'Space Oddity',
-    //             duration: '5:15',
-    //             isLiked: false,
-    //         },
-    //         {
-    //             id: 2,
-    //             title: 'The Man Who Sold The World',
-    //             duration: '3:59',
-    //             isLiked: false,
-    //         }
-    //     ])
-    // })
-})
+    test('добавить ингредиент - несколько', () => {
+        // Добавляем первый ингредиент
+        let state = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(mainExampleIngredient));
+        expect(state.ingredients).toHaveLength(1);
+        expect(state.ingredients).toEqual([mainExampleIngredient]);
+
+        // Добавляем второй ингредиент
+        state = burgerSliceReducer(state, burgerActions.addIngredient(sauceExampleIngredient));
+        expect(state.ingredients).toHaveLength(2);
+        expect(state.ingredients).toEqual([
+            mainExampleIngredient,
+            sauceExampleIngredient
+        ]);
+
+        // Добавляем булку
+        state = burgerSliceReducer(state, burgerActions.addIngredient(bunExampleIngredient));
+        expect(state.bun).toEqual(bunExampleIngredient);
+    });
+
+    test('добавить ингредиент - одинаковый', () => {
+        // Добавляем первый ингредиент
+        let state = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(mainExampleIngredient));
+        expect(state.ingredients).toHaveLength(1);
+        expect(state.ingredients).toEqual([mainExampleIngredient]);
+
+        // Добавляем второй ингредиент
+        state = burgerSliceReducer(state, burgerActions.addIngredient(mainExampleSame));
+        expect(state.ingredients).toHaveLength(2);
+        expect(state.ingredients).toEqual([
+            mainExampleIngredient,
+            mainExampleSame
+        ]);
+    });
+
+    test('удалить ингредиент', () => {
+        // добавляем два ингредиента
+        let state = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(mainExampleIngredient));
+        state = burgerSliceReducer(state, burgerActions.addIngredient(sauceExampleIngredient));
+        expect(state.ingredients).toEqual([mainExampleIngredient, sauceExampleIngredient]);
+        // удаляем первый
+        state = burgerSliceReducer(state, burgerActions.deleteIngredient(sauceExampleIngredient.id));
+        expect(state.ingredients).toEqual([mainExampleIngredient]);
+        // удаляем второй
+        state = burgerSliceReducer(state, burgerActions.deleteIngredient(mainExampleIngredient.id));
+        expect(state.ingredients).toEqual([]);
+    });
+
+    test('изменение порядка ингредиентов в начинке', () => {
+        // добавляем ингредиенты
+        let state = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(mainExampleIngredient));
+        state = burgerSliceReducer(state, burgerActions.addIngredient(sauceExampleIngredient));
+        state = burgerSliceReducer(state, burgerActions.addIngredient(mainExampleSame));
+        state = burgerSliceReducer(state, burgerActions.addIngredient(sauceExampleSame));
+        expect(state.ingredients).toEqual([mainExampleIngredient, sauceExampleIngredient, mainExampleSame, sauceExampleSame]);
+        // первый main вниз
+        state = burgerSliceReducer(state, burgerActions.moveDown(mainExampleIngredient.id));
+        expect(state.ingredients).toEqual([sauceExampleIngredient, mainExampleIngredient, mainExampleSame, sauceExampleSame]);
+        // второй sauce вверх
+        state = burgerSliceReducer(state, burgerActions.moveUp(sauceExampleSame.id));
+        expect(state.ingredients).toEqual([sauceExampleIngredient, mainExampleIngredient, sauceExampleSame, mainExampleSame]);
+    });
+});
