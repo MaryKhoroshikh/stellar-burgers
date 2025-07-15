@@ -5,3 +5,4 @@ export const ingredientsActions = {
   ...ingredientsSlice.actions,
   fetchIngredients
 };
+export default ingredientsSlice.reducer;

@@ -1,14 +1,8 @@
 import {expect, test, describe} from '@jest/globals';
 import burgerSliceReducer, { burgerActions } from './index';
 
-describe('тесты синхронных экшенов', () => {
-    // начальное состояние, которое будем менять в тестах
-    const initialBurgerState = {
-        bun: { price: 0, _id: '' },
-        ingredients: []
-    }
-    // игредиенты которые будем добавлять
-    const bunExampleIngredient = {
+// игредиенты которые будем добавлять
+    export const bunExampleIngredient = {
         "id": "a",
         "_id": "1",
         "name": "ingredient 1",
@@ -23,7 +17,7 @@ describe('тесты синхронных экшенов', () => {
         "image_large": "https://code.s3.yandex.net/react/code/bun-02-large.png",
         "__v": 0
     };
-    const mainExampleIngredient = {
+    export const mainExampleIngredient = {
         "id": "b",
         "_id": "2",
         "name": "ingredient 2",
@@ -38,7 +32,7 @@ describe('тесты синхронных экшенов', () => {
         "image_large": "https://code.s3.yandex.net/react/code/meat-01-large.png",
         "__v": 0
     };
-    const sauceExampleIngredient = {
+    export const sauceExampleIngredient = {
         "id": "c",
         "_id": "4",
         "name": "ingredient 4",
@@ -84,11 +78,12 @@ describe('тесты синхронных экшенов', () => {
         "__v": 0
     };
 
-    // let state = initialBurgerState;
-
-    // afterEach(() => {
-    //     state = initialBurgerState;
-    // });
+describe('тесты синхронных экшенов', () => {
+    // начальное состояние, которое будем менять в тестах
+    const initialBurgerState = {
+        bun: { price: 0, _id: '' },
+        ingredients: []
+    }
 
     test('добавить ингредиент - булка', () => {
         const newState = burgerSliceReducer(initialBurgerState, burgerActions.addIngredient(bunExampleIngredient));
