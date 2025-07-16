@@ -1,14 +1,16 @@
 import { expect, test, describe } from '@jest/globals';
 import feedSliceReducer, { feedActions } from './index';
 
-const orderToday = {
+export const mockIngredientsForOrderToday = [
+    "643d69a5c3f7b9001cfa093c",
+    "643d69a5c3f7b9001cfa093e",
+    "643d69a5c3f7b9001cfa0940",
+    "643d69a5c3f7b9001cfa093c"
+];
+
+export const orderToday = {
     "_id": "1",
-    "ingredients": [
-        "643d69a5c3f7b9001cfa093c",
-        "643d69a5c3f7b9001cfa093e",
-        "643d69a5c3f7b9001cfa0940",
-        "643d69a5c3f7b9001cfa093c"
-    ],
+    "ingredients": mockIngredientsForOrderToday,
     "status": "done",
     "name": "Краторный люминесцентный метеоритный бургер",
     "createdAt": "2025-07-16T07:47:40.484Z",
@@ -16,7 +18,7 @@ const orderToday = {
     "number": 84508
 };
 
-const orderPreviously = {
+export const orderPreviously = {
     "_id": "2",
     "ingredients": [
         "643d69a5c3f7b9001cfa093c",
@@ -47,7 +49,7 @@ describe('тест синхронных экшенов feedSlice', () => {
         orderModalData: null
     };
 
-    test('тест открытия заказа', async () => {
+    test('тест открытия заказа', () => {
         const expectedState = {
             ...initialFeedState,
             orders: mockOrders,
@@ -65,7 +67,7 @@ describe('тест синхронных экшенов feedSlice', () => {
         expect(newState).toEqual(expectedState);
     });
 
-    test('тест загрузки ленты заказов - fulfilled', async () => {
+    test('тест загрузки ленты заказов - fulfilled', () => {
         const expectedState = {
             ...initialFeedState,
             orders: mockOrders,

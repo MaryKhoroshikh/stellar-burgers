@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for services/slices/ingredientsSlice/ingredientsSlice.ts</title>
+    <title>Code coverage report for services/slices/orderSlice/orderSlice.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">services/slices/ingredientsSlice</a> ingredientsSlice.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">services/slices/orderSlice</a> orderSlice.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.82% </span>
+                <span class="strong">92% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>55/58</span>
+                <span class='fraction'>69/75</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>8/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.82% </span>
+                <span class="strong">92% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>55/58</span>
+                <span class='fraction'>69/75</span>
             </div>
         
             
@@ -121,7 +121,24 @@
 <a name='L56'></a><a href='#L56'>56</a>
 <a name='L57'></a><a href='#L57'>57</a>
 <a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L59'></a><a href='#L59'>59</a>
+<a name='L60'></a><a href='#L60'>60</a>
+<a name='L61'></a><a href='#L61'>61</a>
+<a name='L62'></a><a href='#L62'>62</a>
+<a name='L63'></a><a href='#L63'>63</a>
+<a name='L64'></a><a href='#L64'>64</a>
+<a name='L65'></a><a href='#L65'>65</a>
+<a name='L66'></a><a href='#L66'>66</a>
+<a name='L67'></a><a href='#L67'>67</a>
+<a name='L68'></a><a href='#L68'>68</a>
+<a name='L69'></a><a href='#L69'>69</a>
+<a name='L70'></a><a href='#L70'>70</a>
+<a name='L71'></a><a href='#L71'>71</a>
+<a name='L72'></a><a href='#L72'>72</a>
+<a name='L73'></a><a href='#L73'>73</a>
+<a name='L74'></a><a href='#L74'>74</a>
+<a name='L75'></a><a href='#L75'>75</a>
+<a name='L76'></a><a href='#L76'>76</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -137,6 +154,15 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -179,64 +205,89 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { SLICE_NAME } from '../slicesName';
-import { TIngredient } from '@utils-types';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '../../../utils/burger-api';
+import { TOrder } from '@utils-types';
+import { getOrderByNumberApi, orderBurgerApi } from '../../../utils/burger-api';
 &nbsp;
-export interface IngredientsState {
-  ingredients: TIngredient[];
-  isLoading: boolean;
-  ingredientData: TIngredient | null;
+export interface OrderState {
+  newOrderRequest: boolean;
+  newOrderModalData: TOrder | null;
+  orderByNumber: TOrder | null;
+  isOrderByNumberLoading: boolean;
 }
 &nbsp;
-const initialState: IngredientsState = {
-  ingredients: [],
-  isLoading: false,
-  ingredientData: null
+const initialState: OrderState = {
+  newOrderRequest: false,
+  newOrderModalData: null,
+  orderByNumber: null,
+  isOrderByNumberLoading: false
 };
 &nbsp;
-export const fetchIngredients = createAsyncThunk(
-  `${SLICE_NAME.INGREDIENTS}/fetchIngredients`,
-  async () =&gt; {
-<span class="cstat-no" title="statement not covered" >    const data = await getIngredientsApi();</span>
+export const fetchOrder = createAsyncThunk(
+  `${SLICE_NAME.ORDER}/fetchOrder`,
+  async (orderData: string[]) =&gt; {
+<span class="cstat-no" title="statement not covered" >    const data = await orderBurgerApi(orderData);</span>
 <span class="cstat-no" title="statement not covered" >    return data;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 );
 &nbsp;
-const findIngredient = (arr: TIngredient[], id: string) =&gt;
-  arr.filter((item) =&gt; item._id === id)[0];
+export const fetchOrderByNumber = createAsyncThunk(
+  `${SLICE_NAME.ORDER}/fetchOrderByNumber`,
+  async (orderNumber: number) =&gt; {
+<span class="cstat-no" title="statement not covered" >    const data = await getOrderByNumberApi(orderNumber);</span>
+<span class="cstat-no" title="statement not covered" >    return data;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
+);
 &nbsp;
-const ingredientsSlice = createSlice({
-  name: SLICE_NAME.INGREDIENTS,
+const orderSlice = createSlice({
+  name: SLICE_NAME.ORDER,
   initialState,
   reducers: {
-    openIngredient: (state, action: PayloadAction&lt;string&gt;) =&gt; {
-      state.ingredientData = findIngredient(state.ingredients, action.payload);
+    closeModal: (state) =&gt; {
+      state.newOrderModalData = null;
     }
   },
   extraReducers: (builder) =&gt; {
     builder
-      .addCase(fetchIngredients.pending, (state) =&gt; {
-        state.isLoading = true;
+      .addCase(fetchOrder.pending, (state) =&gt; {
+        state.newOrderRequest = true;
       })
-      .addCase(fetchIngredients.fulfilled, (state, action) =&gt; {
-        state.ingredients = action.payload;
-        state.isLoading = false;
+      .addCase(fetchOrder.fulfilled, (state, action) =&gt; {
+        state.newOrderRequest = false;
+        state.newOrderModalData = action.payload.order;
       })
-      .addCase(fetchIngredients.rejected, (state) =&gt; {
-        state.isLoading = false;
+      .addCase(fetchOrder.rejected, (state) =&gt; {
+        state.newOrderRequest = false;
+      })
+      .addCase(fetchOrderByNumber.pending, (state) =&gt; {
+        state.isOrderByNumberLoading = true;
+      })
+      .addCase(fetchOrderByNumber.fulfilled, (state, action) =&gt; {
+        state.isOrderByNumberLoading = false;
+        state.orderByNumber = action.payload.orders[0];
+      })
+      .addCase(fetchOrderByNumber.rejected, (state) =&gt; {
+        state.isOrderByNumberLoading = false;
       });
   },
   selectors: {
-    selectIngredients: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>ingredients,
-    selectIsLoading: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>isLoading,
-    selectIngredientData: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>ingredientData
+    selectNewOrderRequest: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>newOrderRequest,
+    selectNewOrderModalData: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>newOrderModalData,
+    selectIsByNumberLoading: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>isOrderByNumberLoading,
+    selectOrderByNumber: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>orderByNumber
   }
 });
 &nbsp;
-export default ingredientsSlice;
+export default orderSlice;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

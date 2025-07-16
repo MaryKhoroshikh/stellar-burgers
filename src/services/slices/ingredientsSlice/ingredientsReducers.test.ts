@@ -15,7 +15,7 @@ describe('тест синхронных экшенов ingredientSlice', () => {
         ingredientData: null
     };
 
-    test('тест открытия ингредиентов', async () => {
+    test('тест открытия ингредиентов', () => {
         const expectedState = {
             ...initialIngredientsState,
             ingredients: mockIngredients,
@@ -34,7 +34,7 @@ describe('тест синхронных экшенов ingredientSlice', () => {
         expect(newState).toEqual(expectedState);
     });
 
-    test('тест загрузки ингредиентов - pending', async () => {
+    test('тест загрузки ингредиентов - pending', () => {
         const expectedState = {
             ...initialIngredientsState,
             isLoading: true
@@ -50,7 +50,7 @@ describe('тест синхронных экшенов ingredientSlice', () => {
         expect(newState).toEqual(expectedState);
     });
 
-    test('тест загрузки ингредиентов - fulfilled', async () => {
+    test('тест загрузки ингредиентов - fulfilled', () => {
         const expectedState = {
             ...initialIngredientsState,
             ingredients: mockIngredients
@@ -67,7 +67,7 @@ describe('тест синхронных экшенов ingredientSlice', () => {
         expect(newState).toEqual(expectedState);
     });
 
-    test('тест загрузки ингредиентов -  rejected', async () => {
+    test('тест загрузки ингредиентов -  rejected', () => {
         const rejectedError = new Error('rejected error');
         
         const expectedState = {

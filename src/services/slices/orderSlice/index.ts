@@ -6,3 +6,4 @@ export const orderAction = {
   fetchOrder,
   fetchOrderByNumber
 };
+export default orderSlice.reducer;
