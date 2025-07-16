@@ -1,8 +1,6 @@
 import {expect, test, describe, jest} from '@jest/globals';
-import {configureStore } from '@reduxjs/toolkit';
 import { bunExampleIngredient, mainExampleIngredient, sauceExampleIngredient } from '../burgerSlice/burgerReducers.test'
 import ingredientsSliceReducer, { ingredientsSelectors, ingredientsActions } from './index';
-import { SLICE_NAME } from '../slicesName'
 
 const mockIngredients  = [
     bunExampleIngredient,
@@ -10,69 +8,81 @@ const mockIngredients  = [
     sauceExampleIngredient
 ];
 
-describe('тест асинхронных экшенов', () => {
-    let fetchSpy: any;
-    
-    let store = configureStore({
-        reducer: { [SLICE_NAME.INGREDIENTS]: ingredientsSliceReducer }
-    });
+describe('тест синхронных экшенов ingredientSlice', () => {
+    const initialIngredientsState = {
+        ingredients: [],
+        isLoading: false,
+        ingredientData: null
+    };
 
-    beforeEach(() => {
-        fetchSpy = jest.spyOn(global, 'fetch');
-    });
+    test('тест открытия ингредиентов', async () => {
+        const expectedState = {
+            ...initialIngredientsState,
+            ingredients: mockIngredients,
+            ingredientData: bunExampleIngredient
+        };
 
-    afterEach(() => {
-        fetchSpy.mockRestore();
-        jest.resetAllMocks();
-    });
+        const newState = ingredientsSliceReducer(
+            {
+                ...initialIngredientsState,
+                ingredients: mockIngredients
+                
+            },
+            ingredientsActions.openIngredient(bunExampleIngredient._id)
+        );
 
-    test('проверка сброса состояния', () => {
-        // Проверяем начальное состояние
-        expect(ingredientsSelectors.selectIsLoading(store.getState())).toBe(false);
-        expect(ingredientsSelectors.selectIngredients(store.getState())).toEqual([]);
-        expect(ingredientsSelectors.selectIngredientData(store.getState())).toBeNull();
+        expect(newState).toEqual(expectedState);
     });
 
     test('тест загрузки ингредиентов - pending', async () => {
-        fetchSpy.mockImplementation(() => {
-            return new Promise((resolve) => setTimeout(resolve, 100));
-        });
+        const expectedState = {
+            ...initialIngredientsState,
+            isLoading: true
+        };
 
-        store.dispatch(ingredientsActions.fetchIngredients());
+        const newState = ingredientsSliceReducer(
+            {
+                ...initialIngredientsState
+            },
+            ingredientsActions.fetchIngredients.pending('')
+        );
 
-        expect(ingredientsSelectors.selectIsLoading(store.getState())).toBe(true);
-        expect(ingredientsSelectors.selectIngredients(store.getState())).toEqual([]);
-        expect(ingredientsSelectors.selectIngredientData(store.getState())).toBeNull();
+        expect(newState).toEqual(expectedState);
     });
 
     test('тест загрузки ингредиентов - fulfilled', async () => {
-        fetchSpy.mockImplementation(async () => {
-            return {
-                json: () => Promise.resolve(mockIngredients),
-                ok: true,
-                status: 200
-            };
-        });
+        const expectedState = {
+            ...initialIngredientsState,
+            ingredients: mockIngredients
+        };
 
-        const result = await store.dispatch(ingredientsActions.fetchIngredients());
-        console.log('Полученные данные:', result.payload);
+        const newState = ingredientsSliceReducer(
+            {
+                ...initialIngredientsState,
+                isLoading: true
+            },
+            ingredientsActions.fetchIngredients.fulfilled(mockIngredients, '')
+        );
 
-        expect(ingredientsSelectors.selectIsLoading(store.getState())).toBe(false);
-        expect(ingredientsSelectors.selectIngredients(store.getState())).toEqual(mockIngredients);
-        expect(ingredientsSelectors.selectIngredientData(store.getState())).toBeNull();
+        expect(newState).toEqual(expectedState);
     });
 
     test('тест загрузки ингредиентов -  rejected', async () => {
-        fetchSpy.mockRejectedValue(new Error('Ошибка сети'));
+        const rejectedError = new Error('rejected error');
+        
+        const expectedState = {
+            ...initialIngredientsState,
+        };
 
-        try {
-            await store.dispatch(ingredientsActions.fetchIngredients());
-        } catch (error) {
-            // Проверяем состояние после ошибки
-            expect(ingredientsSelectors.selectIsLoading(store.getState())).toBe(false);
-            expect(ingredientsSelectors.selectIngredients(store.getState())).toEqual([]);
-            expect(ingredientsSelectors.selectIngredientData(store.getState())).toBeNull();
-        }
+        const newState = ingredientsSliceReducer(
+            {
+                ...initialIngredientsState,
+                isLoading: true
+            },
+            ingredientsActions.fetchIngredients.rejected(rejectedError, '')
+        );
+
+        expect(newState).toEqual(expectedState);
     });
 });
  

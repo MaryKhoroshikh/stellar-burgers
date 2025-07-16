@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.37% </span>
+                <span class="strong">94.82% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>53/58</span>
+                <span class='fraction'>55/58</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>9/9</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/6</span>
+                <span class='fraction'>3/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">91.37% </span>
+                <span class="strong">94.82% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>53/58</span>
+                <span class='fraction'>55/58</span>
             </div>
         
             
@@ -142,12 +142,8 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -155,20 +151,24 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -200,21 +200,21 @@ const initialState: IngredientsState = {
 export const fetchIngredients = createAsyncThunk(
   `${SLICE_NAME.INGREDIENTS}/fetchIngredients`,
   async () =&gt; {
-    const data = await getIngredientsApi();
-    return data;
-  }
+<span class="cstat-no" title="statement not covered" >    const data = await getIngredientsApi();</span>
+<span class="cstat-no" title="statement not covered" >    return data;</span>
+<span class="cstat-no" title="statement not covered" >  }</span>
 );
 &nbsp;
-const findIngredient = <span class="fstat-no" title="function not covered" >(arr: TIngredient[], id: string) =&gt;</span>
-<span class="cstat-no" title="statement not covered" >  arr.filter((item) =&gt; item._id === id)[0];</span>
+const findIngredient = (arr: TIngredient[], id: string) =&gt;
+  arr.filter((item) =&gt; item._id === id)[0];
 &nbsp;
 const ingredientsSlice = createSlice({
   name: SLICE_NAME.INGREDIENTS,
   initialState,
   reducers: {
-    openIngredient: <span class="fstat-no" title="function not covered" >(state, action: PayloadAction&lt;string&gt;) =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      state.ingredientData = findIngredient(state.ingredients, action.payload);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    openIngredient: (state, action: PayloadAction&lt;string&gt;) =&gt; {
+      state.ingredientData = findIngredient(state.ingredients, action.payload);
+    }
   },
   extraReducers: (builder) =&gt; {
     builder
@@ -222,17 +222,17 @@ const ingredientsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchIngredients.fulfilled, (state, action) =&gt; {
-<span class="cstat-no" title="statement not covered" >        state.ingredients = action.payload;</span>
-<span class="cstat-no" title="statement not covered" >        state.isLoading = false;</span>
+        state.ingredients = action.payload;
+        state.isLoading = false;
       })
       .addCase(fetchIngredients.rejected, (state) =&gt; {
         state.isLoading = false;
       });
   },
   selectors: {
-    selectIngredients: (sliceState) =&gt; sliceState.ingredients,
-    selectIsLoading: (sliceState) =&gt; sliceState.isLoading,
-    selectIngredientData: (sliceState) =&gt; sliceState.ingredientData
+    selectIngredients: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>ingredients,
+    selectIsLoading: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>isLoading,
+    selectIngredientData: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>ingredientData
   }
 });
 &nbsp;
@@ -244,7 +244,7 @@ export default ingredientsSlice;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-07-15T17:29:23.212Z
+                at 2025-07-16T07:49:30.636Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

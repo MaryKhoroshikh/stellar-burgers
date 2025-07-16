@@ -78,7 +78,7 @@ import burgerSliceReducer, { burgerActions } from './index';
         "__v": 0
     };
 
-describe('тесты синхронных экшенов', () => {
+describe('тесты синхронных экшенов burgerSlice', () => {
     // начальное состояние, которое будем менять в тестах
     const initialBurgerState = {
         bun: { price: 0, _id: '' },
