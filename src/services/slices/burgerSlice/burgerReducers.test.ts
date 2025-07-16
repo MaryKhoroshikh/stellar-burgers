@@ -1,4 +1,4 @@
-import {expect, test, describe} from '@jest/globals';
+import { expect, test, describe } from '@jest/globals';
 import burgerSliceReducer, { burgerActions } from './index';
 
 // игредиенты которые будем добавлять

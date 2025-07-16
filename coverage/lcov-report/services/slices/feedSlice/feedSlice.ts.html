@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for services/slices/ingredientsSlice/ingredientsSlice.ts</title>
+    <title>Code coverage report for services/slices/feedSlice/feedSlice.ts</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../../prettify.css" />
     <link rel="stylesheet" href="../../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../../index.html">All files</a> / <a href="index.html">services/slices/ingredientsSlice</a> ingredientsSlice.ts</h1>
+        <h1><a href="../../../index.html">All files</a> / <a href="index.html">services/slices/feedSlice</a> feedSlice.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.82% </span>
+                <span class="strong">94.54% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>55/58</span>
+                <span class='fraction'>52/55</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/7</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/6</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">94.82% </span>
+                <span class="strong">94.54% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>55/58</span>
+                <span class='fraction'>52/55</span>
             </div>
         
             
@@ -118,10 +118,11 @@
 <a name='L53'></a><a href='#L53'>53</a>
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
-<a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a>
-<a name='L59'></a><a href='#L59'>59</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L56'></a><a href='#L56'>56</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -172,71 +173,61 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { SLICE_NAME } from '../slicesName';
-import { TIngredient } from '@utils-types';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getIngredientsApi } from '../../../utils/burger-api';
+import { TOrder } from '@utils-types';
+import { getFeedsApi } from '../../../utils/burger-api';
 &nbsp;
-export interface IngredientsState {
-  ingredients: TIngredient[];
-  isLoading: boolean;
-  ingredientData: TIngredient | null;
+export interface OrdersListState {
+  orders: TOrder[];
+  feed:
+    | {
+        total: number;
+        totalToday: number;
+      }
+    | {};
+  orderModalData: TOrder | null;
 }
 &nbsp;
-const initialState: IngredientsState = {
-  ingredients: [],
-  isLoading: false,
-  ingredientData: null
+const initialState: OrdersListState = {
+  orders: [],
+  feed: {},
+  orderModalData: null
 };
 &nbsp;
-export const fetchIngredients = createAsyncThunk(
-  `${SLICE_NAME.INGREDIENTS}/fetchIngredients`,
+export const fetchFeed = createAsyncThunk(
+  `${SLICE_NAME.FEED}/fetchFeed`,
   async () =&gt; {
-<span class="cstat-no" title="statement not covered" >    const data = await getIngredientsApi();</span>
+<span class="cstat-no" title="statement not covered" >    const data = await getFeedsApi();</span>
 <span class="cstat-no" title="statement not covered" >    return data;</span>
 <span class="cstat-no" title="statement not covered" >  }</span>
 );
 &nbsp;
-const findIngredient = (arr: TIngredient[], id: string) =&gt;
-  arr.filter((item) =&gt; item._id === id)[0];
-&nbsp;
-const ingredientsSlice = createSlice({
-  name: SLICE_NAME.INGREDIENTS,
+const feedSlice = createSlice({
+  name: SLICE_NAME.FEED,
   initialState,
   reducers: {
-    openIngredient: (state, action: PayloadAction&lt;string&gt;) =&gt; {
-      state.ingredientData = findIngredient(state.ingredients, action.payload);
+    openOrder: (state, action: PayloadAction&lt;TOrder&gt;) =&gt; {
+      state.orderModalData = action.payload;
     }
   },
   extraReducers: (builder) =&gt; {
-    builder
-      .addCase(fetchIngredients.pending, (state) =&gt; {
-        state.isLoading = true;
-      })
-      .addCase(fetchIngredients.fulfilled, (state, action) =&gt; {
-        state.ingredients = action.payload;
-        state.isLoading = false;
-      })
-      .addCase(fetchIngredients.rejected, (state) =&gt; {
-        state.isLoading = false;
-      });
+    builder.addCase(fetchFeed.fulfilled, (state, action) =&gt; {
+      state.orders = action.payload.orders;
+      state.feed = {
+        total: action.payload.total,
+        totalToday: action.payload.totalToday
+      };
+    });
   },
   selectors: {
-    selectIngredients: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>ingredients,
-    selectIsLoading: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>isLoading,
-    selectIngredientData: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>ingredientData
+    selectOrders: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>orders,
+    selectFeed: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>feed,
+    selectOrderModalData: <span class="fstat-no" title="function not covered" >(sliceState) =&gt; sliceState.</span>orderModalData
   }
 });
 &nbsp;
-export default ingredientsSlice;
+export default feedSlice;
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->

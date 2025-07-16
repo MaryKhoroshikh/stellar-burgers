@@ -5,3 +5,4 @@ export const feedActions = {
   ...feedSlice.actions,
   fetchFeed
 };
+export default feedSlice.reducer;

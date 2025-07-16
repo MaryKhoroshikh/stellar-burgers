@@ -1,6 +1,6 @@
-import {expect, test, describe, jest} from '@jest/globals';
+import { expect, test, describe } from '@jest/globals';
 import { bunExampleIngredient, mainExampleIngredient, sauceExampleIngredient } from '../burgerSlice/burgerReducers.test'
-import ingredientsSliceReducer, { ingredientsSelectors, ingredientsActions } from './index';
+import ingredientsSliceReducer, { ingredientsActions } from './index';
 
 const mockIngredients  = [
     bunExampleIngredient,
