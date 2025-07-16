@@ -3,7 +3,7 @@ import { orderToday, mockIngredientsForOrderToday } from '../feedSlice/feedReduc
 import orderSliceReducer, { orderAction } from './index';
 
 describe('тест синхронных экшенов orderSlice', () => {
-    const initialIngredientsState = {
+    const initialOrderState = {
         newOrderRequest: false,
         newOrderModalData: null,
         orderByNumber: null,
@@ -12,13 +12,13 @@ describe('тест синхронных экшенов orderSlice', () => {
 
     test('тест закрытия модального окна', () => {
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             newOrderModalData: null
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState,
+                ...initialOrderState,
                 newOrderModalData: orderToday
                 
             },
@@ -32,13 +32,13 @@ describe('тест синхронных экшенов orderSlice', () => {
 
     test('тест загрузки нового заказа - pending', () => {
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             newOrderRequest: true,
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState
+                ...initialOrderState
             },
             orderAction.fetchOrder.pending('', mockIngredientsForOrderToday)
         );
@@ -48,14 +48,14 @@ describe('тест синхронных экшенов orderSlice', () => {
 
     test('тест загрузки нового заказа - fulfilled', () => {
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             newOrderRequest: false,
             newOrderModalData: orderToday
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState,
+                ...initialOrderState,
                 newOrderRequest: true
             },
             orderAction.fetchOrder.fulfilled({success: true, order: orderToday, name: orderToday.name}, '', mockIngredientsForOrderToday)
@@ -68,13 +68,13 @@ describe('тест синхронных экшенов orderSlice', () => {
         const rejectedError = new Error('rejected error');
         
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             newOrderRequest: false
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState,
+                ...initialOrderState,
                 newOrderRequest: true
             },
             orderAction.fetchOrder.rejected(rejectedError, '', mockIngredientsForOrderToday)
@@ -87,13 +87,13 @@ describe('тест синхронных экшенов orderSlice', () => {
 
     test('тест загрузки заказа по номеру - pending', () => {
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             isOrderByNumberLoading: true
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState
+                ...initialOrderState
             },
             orderAction.fetchOrderByNumber.pending('', orderToday.number)
         );
@@ -103,14 +103,14 @@ describe('тест синхронных экшенов orderSlice', () => {
 
     test('тест загрузки заказа по номеру - fulfilled', () => {
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             orderByNumber: orderToday,
             isOrderByNumberLoading: false
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState,
+                ...initialOrderState,
                 isOrderByNumberLoading: true
             },
             orderAction.fetchOrderByNumber.fulfilled({success: true, orders: [orderToday]}, '', orderToday.number)
@@ -123,13 +123,13 @@ describe('тест синхронных экшенов orderSlice', () => {
         const rejectedError = new Error('rejected error');
         
         const expectedState = {
-            ...initialIngredientsState,
+            ...initialOrderState,
             isOrderByNumberLoading: false
         };
 
         const newState = orderSliceReducer(
             {
-                ...initialIngredientsState,
+                ...initialOrderState,
                 isOrderByNumberLoading: true
             },
             orderAction.fetchOrderByNumber.rejected(rejectedError, '', orderToday.number)

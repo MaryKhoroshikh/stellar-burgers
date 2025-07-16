@@ -55,7 +55,7 @@ export const Profile: FC = () => {
     }));
   };
 
-  if (isRequestLoading === 'load') {
+  if (isRequestLoading === true) {
     return <Preloader />;
   }
 

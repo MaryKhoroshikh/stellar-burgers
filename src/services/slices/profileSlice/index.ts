@@ -21,3 +21,4 @@ export const profileActions = {
   forgotPassword,
   resetPassword
 };
+export default profileSlice.reducer;

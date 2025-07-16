@@ -19,7 +19,7 @@ export const Login: FC = () => {
     dispatch(profileActions.loginUser(userData));
   };
 
-  if (isRequestLoading === 'load') {
+  if (isRequestLoading === true) {
     return <Preloader />;
   }
 

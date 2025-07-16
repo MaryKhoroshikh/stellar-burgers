@@ -32,7 +32,7 @@ export const orderPreviously = {
     "number": 84463
 }
 
-const mockOrders =[
+export const mockOrders =[
     orderToday,
     orderPreviously
 ];
