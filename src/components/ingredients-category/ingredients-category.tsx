@@ -3,12 +3,12 @@ import { TIngredientsCategoryProps } from './type';
 import { TIngredient } from '@utils-types';
 import { IngredientsCategoryUI } from '../ui/ingredients-category';
 import { useSelector } from 'react-redux';
-import { burgerSelectors } from '@slices';
+import { burgerSelectors } from '../../services/slices/burgerSlice';
 
 export const IngredientsCategory = forwardRef<
   HTMLUListElement,
   TIngredientsCategoryProps
->(({ title, titleRef, ingredients }, ref) => {
+>(({ title, titleRef, ingredients, ...rest }, ref) => {
   /** TODO: взять переменную из стора */
   const constructorBun = useSelector(burgerSelectors.selectBun);
   const constructorIngredients = useSelector(burgerSelectors.selectIngredients);
@@ -32,6 +32,7 @@ export const IngredientsCategory = forwardRef<
       ingredients={ingredients}
       ingredientsCounters={ingredientsCounters}
       ref={ref}
+      {...rest}
     />
   );
 });

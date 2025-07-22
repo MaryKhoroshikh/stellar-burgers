@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { SLICE_NAME } from './slicesName';
+import { SLICE_NAME } from '../slicesName';
 import { TOrder, TUser } from '@utils-types';
 import {
   forgotPasswordApi,
@@ -11,16 +11,14 @@ import {
   resetPasswordApi,
   TRegisterData,
   updateUserApi
-} from '@api';
-import { deleteCookie, setCookie } from '../../utils/cookie';
-
-type TRequestStatus = 'load' | 'done' | 'fail';
+} from '../../../utils/burger-api';
+import { deleteCookie, setCookie } from '../../../utils/cookie';
 
 export interface ProfileState {
   user: TUser;
   orders: TOrder[];
   profileCheck: boolean;
-  requestStatus: TRequestStatus;
+  isLoading: boolean;
 }
 
 const initialState: ProfileState = {
@@ -30,7 +28,7 @@ const initialState: ProfileState = {
   },
   orders: [],
   profileCheck: false,
-  requestStatus: 'done'
+  isLoading: false
 };
 
 export const fetchUser = createAsyncThunk(
@@ -110,49 +108,47 @@ const profileSlice = createSlice({
   reducers: {
     setProfileCheck: (state) => {
       state.profileCheck = true;
-    },
-    setInitialState: (state) => {
-      state = initialState;
     }
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchUser.fulfilled, (state, action) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
         state.user = action.payload.user;
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
         state.user = action.payload.user;
       })
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
         state.user = action.payload.user;
       })
       .addCase(logoutUser.fulfilled, (state) => {
         state.user.name = '';
-        state.requestStatus = 'done';
+        state.user.email = '';
+        state.isLoading = false;
       })
       .addCase(updateUser.fulfilled, (state, action) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
         state.user = action.payload.user;
       })
       .addCase(fetchUserOrders.fulfilled, (state, action) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
         state.orders = action.payload;
       })
       .addCase(forgotPassword.fulfilled, (state) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
       })
       .addCase(resetPassword.fulfilled, (state) => {
-        state.requestStatus = 'done';
+        state.isLoading = false;
       })
       .addMatcher(
         (action) =>
           action.type.toString().startsWith('profile/') &&
           action.type.toString().endsWith('/pending'),
         (state) => {
-          state.requestStatus = 'load';
+          state.isLoading = true;
         }
       )
       .addMatcher(
@@ -160,14 +156,14 @@ const profileSlice = createSlice({
           action.type.toString().startsWith('profile/') &&
           action.type.toString().endsWith('/rejected'),
         (state) => {
-          state.requestStatus = 'fail';
+          state.isLoading = false;
         }
       );
   },
   selectors: {
     selectUser: (sliceState) => sliceState.user,
     selectOrders: (sliceState) => sliceState.orders,
-    selectRequestStatus: (sliceState) => sliceState.requestStatus,
+    selectRequestStatus: (sliceState) => sliceState.isLoading,
     profileCheck: (sliceState) => sliceState.profileCheck
   }
 });

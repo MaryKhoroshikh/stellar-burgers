@@ -1,13 +1,12 @@
 import { FC, memo } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { BurgerIngredientUI } from '@ui';
 import { TBurgerIngredientProps } from './type';
-
 import { useDispatch } from '../../services/store';
 import { TIngredient } from '@utils-types';
 import { nanoid } from '@reduxjs/toolkit';
-import { burgerActions, ingredientsActions } from '@slices';
+import { burgerActions } from '../../services/slices/burgerSlice';
+import { ingredientsActions } from '../../services/slices/ingredientsSlice';
 
 export const BurgerIngredient: FC<TBurgerIngredientProps> = memo(
   ({ ingredient, count }) => {

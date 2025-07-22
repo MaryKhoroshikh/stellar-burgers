@@ -1,5 +1,5 @@
 import { createSlice, isAction, PayloadAction } from '@reduxjs/toolkit';
-import { SLICE_NAME } from './slicesName';
+import { SLICE_NAME } from '../slicesName';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 
 export interface ConstructorState {

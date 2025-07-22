@@ -1,7 +1,7 @@
 import { ProfileOrdersUI } from '@ui-pages';
 import { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { profileSelectors } from '@slices';
+import { profileSelectors } from '../../services/slices/profileSlice';
 
 export const ProfileOrders: FC = () => {
   /** TODO: взять переменную из стора */

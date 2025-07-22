@@ -17,10 +17,10 @@ import { OrderInfo } from '@components';
 import { IngredientDetails } from '@components';
 import { useDispatch } from '../../services/store';
 import { useEffect } from 'react';
-import { fetchIngredients } from '../../services/slices/ingredientsSlice';
-import { profileActions } from '../../services/slices/index';
+import { fetchIngredients } from '../../services/slices/ingredientsSlice/ingredientsSlice';
 import ProtectedRoute from '../protected-route';
 import { getCookie } from '../../utils/cookie';
+import { profileActions } from '../../services/slices/profileSlice';
 
 function AppRouter() {
   const navigate = useNavigate();

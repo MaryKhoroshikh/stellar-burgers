@@ -1,8 +1,11 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { LoginUI } from '@ui-pages';
 import { useDispatch, useSelector } from '../../services/store';
-import { profileActions, profileSelectors } from '@slices';
 import { Preloader } from '@ui';
+import {
+  profileActions,
+  profileSelectors
+} from '../../services/slices/profileSlice';
 
 export const Login: FC = () => {
   const [email, setEmail] = useState('');
@@ -16,7 +19,7 @@ export const Login: FC = () => {
     dispatch(profileActions.loginUser(userData));
   };
 
-  if (isRequestLoading === 'load') {
+  if (isRequestLoading === true) {
     return <Preloader />;
   }
 

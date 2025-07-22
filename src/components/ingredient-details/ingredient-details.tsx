@@ -2,9 +2,12 @@ import { FC, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
 import { useSelector } from 'react-redux';
-import { ingredientsActions, ingredientsSelectors } from '@slices';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
+import {
+  ingredientsActions,
+  ingredientsSelectors
+} from '../../services/slices/ingredientsSlice';
 
 export const IngredientDetails: FC = () => {
   const dispatch = useDispatch();

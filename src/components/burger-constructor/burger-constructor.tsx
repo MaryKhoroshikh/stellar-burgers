@@ -2,14 +2,12 @@ import { FC, useMemo } from 'react';
 import { TConstructorIngredient } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { useSelector } from 'react-redux';
-import {
-  burgerSelectors,
-  orderAction,
-  orderSelectors,
-  profileSelectors
-} from '@slices';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from '../../services/store';
+import { getCookie } from '../../utils/cookie';
+import { burgerSelectors } from '../../services/slices/burgerSlice';
+import { orderAction, orderSelectors } from '../../services/slices/orderSlice';
+import { profileSelectors } from '../../services/slices/profileSlice';
 
 export const BurgerConstructor: FC = () => {
   const navigate = useNavigate();
@@ -30,7 +28,7 @@ export const BurgerConstructor: FC = () => {
 
   const onOrderClick = () => {
     if (!constructorBun || orderRequest) return;
-    if (user.name === '') {
+    if (!getCookie('accessToken')) {
       navigate('/login');
     } else {
       dispatch(orderAction.fetchOrder(getIngredientsIds()));
@@ -64,6 +62,7 @@ export const BurgerConstructor: FC = () => {
       orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
+      data-cy='order-button'
     />
   );
 };

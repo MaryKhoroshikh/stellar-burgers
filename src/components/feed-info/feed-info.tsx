@@ -4,7 +4,7 @@ import { TOrder } from '@utils-types';
 import { FeedInfoUI } from '../ui/feed-info';
 
 import { useSelector } from 'react-redux';
-import { feedSelectors } from '@slices';
+import { feedSelectors } from '../../services/slices/feedSlice';
 
 const getOrders = (orders: TOrder[], status: string): number[] =>
   orders
